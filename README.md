@@ -1,6 +1,6 @@
 ##Bookmarks ElkArte Version 1.0
 
-### License
+##License
 ThisElkarte addon is released under a [BSD-3-Clause](http://opensource.org/licenses/BSD-3-Clause) license.
 
 ##Introduction
