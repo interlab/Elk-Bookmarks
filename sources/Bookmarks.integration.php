@@ -22,8 +22,6 @@ if (!defined('ELK'))
  */
 function igm_bookmarks(&$config_vars)
 {
-	global $txt;
-
 	loadLanguage('Bookmarks');
 
 	$config_vars = array_merge($config_vars, array(
@@ -46,6 +44,8 @@ function igm_bookmarks(&$config_vars)
 function ilp_bookmarks(&$permissionGroups, &$permissionList, &$leftPermissionGroups, &$hiddenPermissions, &$relabelPermissions)
 {
 	global $context;
+
+	loadLanguage('Bookmarks');
 
 	// Guests should never be able to make bookmarks
 	$context['non_guest_permissions'][] = 'bookmarks';
