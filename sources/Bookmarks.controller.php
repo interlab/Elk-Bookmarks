@@ -134,6 +134,8 @@ class Bookmarks_Controller extends Action_Controller
 			$this->_result = 'bookmark_delete_failure';
 		else
 		{
+			$topic_ids = array();
+
 			// Make sure we have valid id's here.
 			foreach ($_POST['remove_bookmarks'] as $index => $id)
 				$topic_ids[$index] = (int) $id;

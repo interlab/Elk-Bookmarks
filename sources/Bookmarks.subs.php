@@ -18,11 +18,11 @@ if (!defined('ELK'))
  * @param int $id_member
  * @param int $id_topic
  */
-function addBookmark($id_member, $id_topic)
+function addBookmark($id_member, $id_topic = null)
 {
 	$db = database();
 
-	$id_topic = (int) $_GET['topic'];
+	$id_topic = isset($id_topic) ? (int) $id_topic : (int) $_GET['topic'];
 
 	// Add a bookmark for this user and topic
 	$result = $db->insert('replace', '
@@ -44,8 +44,8 @@ function addBookmark($id_member, $id_topic)
 /**
  * Delete bookmarks for a certain user.
  *
- * @param type $id_member
- * @param type $topic_ids
+ * @param int $id_member
+ * @param int[] $topic_ids
  */
 function deleteBookmarks($id_member, $topic_ids)
 {
@@ -75,7 +75,7 @@ function deleteBookmarks($id_member, $topic_ids)
  */
 function getBookmarks($id_member)
 {
-	global $settings, $scripturl, $modSettings, $user_info, $txt;
+	global $settings, $scripturl, $modSettings, $user_info, $txt, $context;
 
 	$db = database();
 
