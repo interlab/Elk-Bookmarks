@@ -26,6 +26,7 @@ function igm_bookmarks(&$config_vars)
 
 	$config_vars = array_merge($config_vars, array(
 		array('check', 'bookmarks_enabled'),
+		'',
 	));
 }
 
