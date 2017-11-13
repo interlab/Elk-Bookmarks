@@ -6,7 +6,7 @@
 	<type>addon</type>
 	<version>2.5</version>
 
-	<install for="1.0 - 1.0.99">
+	<install for="1.0 - 1.1.99">
 		<require-file name="sources/Bookmarks.controller.php" destination="CONTROLLERDIR" />
 		<require-file name="sources/Bookmarks.subs.php" destination="SUBSDIR" />
 		<require-file name="sources/Bookmarks.integration.php" destination="SOURCEDIR" />
@@ -23,7 +23,7 @@
 		<redirect url="index.php?action=admin;area=addonsettings;sa=general" timeout="5000">redirect.txt</redirect>
 	</install>
 
-	<uninstall for="1.0 - 1.0.99">
+	<uninstall for="1.0 - 1.1.99">
 		<hook reverse="true" hook="integrate_general_mod_settings" file="SOURCEDIR/Bookmarks.integration.php" function="igm_bookmarks" />
 		<hook reverse="true" hook="integrate_load_permissions" file="SOURCEDIR/Bookmarks.integration.php" function="ilp_bookmarks" />
 		<hook reverse="true" hook="integrate_remove_topics" file="SOURCEDIR/Bookmarks.integration.php" function="irt_bookmarks" />
