@@ -6,11 +6,28 @@
 	<type>addon</type>
 	<version>2.5</version>
 
-	<install for="1.0 - 1.1.99">
+	<install for="1.0 - 1.0.99">
 		<require-file name="sources/Bookmarks.controller.php" destination="CONTROLLERDIR" />
 		<require-file name="sources/Bookmarks.subs.php" destination="SUBSDIR" />
 		<require-file name="sources/Bookmarks.integration.php" destination="SOURCEDIR" />
 		<require-file name="theme/Bookmarks.template.php" destination="THEMEDIR" />
+		<require-file name="theme/Bookmarks.english.php" destination="LANGUAGEDIR/english" />
+		<require-file name="theme/Bookmarks.french.php" destination="LANGUAGEDIR/french" />
+		<require-file name="theme/Bookmarks.turkish.php" destination="LANGUAGEDIR/turkish" />
+		<hook hook="integrate_general_mod_settings" file="SOURCEDIR/Bookmarks.integration.php" function="igm_bookmarks" />
+		<hook hook="integrate_load_permissions" file="SOURCEDIR/Bookmarks.integration.php" function="ilp_bookmarks" />
+		<hook hook="integrate_remove_topics" file="SOURCEDIR/Bookmarks.integration.php" function="irt_bookmarks" />
+		<hook hook="integrate_display_buttons" file="SOURCEDIR/Bookmarks.integration.php" function="idb_bookmarks" />
+		<hook hook="integrate_menu_buttons" file="SOURCEDIR/Bookmarks.integration.php" function="imb_bookmarks" />
+		<database type="file">install.php</database>
+		<redirect url="index.php?action=admin;area=addonsettings;sa=general" timeout="5000">redirect.txt</redirect>
+	</install>
+
+	<install for="1.1 - 1.1.99">
+		<require-file name="sources/Bookmarks.controller.php" destination="CONTROLLERDIR" />
+		<require-file name="sources/Bookmarks.subs.php" destination="SUBSDIR" />
+		<require-file name="sources/Bookmarks.integration.php" destination="SOURCEDIR" />
+		<require-file name="theme/1.1/Bookmarks.template.php" destination="THEMEDIR" />
 		<require-file name="theme/Bookmarks.english.php" destination="LANGUAGEDIR/english" />
 		<require-file name="theme/Bookmarks.french.php" destination="LANGUAGEDIR/french" />
 		<require-file name="theme/Bookmarks.turkish.php" destination="LANGUAGEDIR/turkish" />

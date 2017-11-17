@@ -91,9 +91,6 @@ class Bookmarks_Controller extends Action_Controller
 
 	/**
 	 * Adds a bookmark for a certain topic for a certain user.
-	 *
-	 * @param int $id_topic
-	 * @param int $id_member
 	 */
 	public function action_bookmarks_add()
 	{
@@ -119,9 +116,6 @@ class Bookmarks_Controller extends Action_Controller
 
 	/**
 	 * Delete bookmarks for a certain user.
-	 *
-	 * @param type $topic_ids
-	 * @param type $id_member
 	 */
 	public function action_bookmarks_delete()
 	{
