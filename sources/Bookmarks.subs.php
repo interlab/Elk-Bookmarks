@@ -5,7 +5,7 @@
  * @author Aaron
  * @license BSD http://opensource.org/licenses/BSD-3-Clause
  *
- * @version 1.0
+ * @version 1.0.1
  *
  */
 
@@ -114,7 +114,7 @@ function getBookmarks($id_member)
 	{
 		censorText($row['subject']);
 
-		$bookmarks[] = array(
+		$bookmarks[$row['id_topic']] = array(
 			'id' => $row['id_topic'],
 			'board' => array(
 				'id' => $row['id_board'],

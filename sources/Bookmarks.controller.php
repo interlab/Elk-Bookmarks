@@ -5,7 +5,7 @@
  * @author Aaron
  * @license BSD http://opensource.org/licenses/BSD-3-Clause
  *
- * @version 1.0
+ * @version 1.0.1
  *
  */
 
@@ -66,7 +66,7 @@ class Bookmarks_Controller extends Action_Controller
 			'name' => $txt['bookmarks'],
 		);
 
-		// Default to sub-action 'main' if they have asked for somethign odd
+		// Default to sub-action 'main' if they have asked for something odd
 		$subAction = $action->initialize($subActions, 'main');
 		$context['sub_action'] = $subAction;
 
@@ -94,7 +94,7 @@ class Bookmarks_Controller extends Action_Controller
 	 */
 	public function action_bookmarks_add()
 	{
-		global $user_info;
+		global $user_info, $context;
 
 		checkSession('get');
 
@@ -111,7 +111,8 @@ class Bookmarks_Controller extends Action_Controller
 		}
 
 		// reLoad this user's bookmarks
-		$this->action_bookmarks_get($user_info['id']);
+		$this->action_bookmarks_get();
+		redirectexit('action=bookmarks;' . $context['session_var'] . '=' . $context['session_id']);
 	}
 
 	/**
@@ -137,11 +138,11 @@ class Bookmarks_Controller extends Action_Controller
 			// Remove what we can
 			$result = deleteBookmarks($user_info['id'], $topic_ids);
 
-			// Return the amount of deleted bookmarks, unless an error occured.
+			// Return the amount of deleted bookmarks, unless an error occurred.
 			$this->_result = $result ? array('bookmark_delete_success', $result)  : 'bookmark_delete_failure';
 		}
 
 		// reLoad this user's bookmarks
-		$this->action_bookmarks_get($user_info['id']);
+		$this->action_bookmarks_get();
 	}
 }
