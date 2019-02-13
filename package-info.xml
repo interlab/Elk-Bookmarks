@@ -14,6 +14,7 @@
 		<require-file name="theme/Bookmarks.english.php" destination="LANGUAGEDIR/english" />
 		<require-file name="theme/Bookmarks.french.php" destination="LANGUAGEDIR/french" />
 		<require-file name="theme/Bookmarks.turkish.php" destination="LANGUAGEDIR/turkish" />
+		<require-file name="theme/Bookmarks.german.php" destination="LANGUAGEDIR/german" />
 		<hook hook="integrate_general_mod_settings" file="SOURCEDIR/Bookmarks.integration.php" function="igm_bookmarks" />
 		<hook hook="integrate_load_permissions" file="SOURCEDIR/Bookmarks.integration.php" function="ilp_bookmarks" />
 		<hook hook="integrate_remove_topics" file="SOURCEDIR/Bookmarks.integration.php" function="irt_bookmarks" />
@@ -31,6 +32,7 @@
 		<require-file name="theme/Bookmarks.english.php" destination="LANGUAGEDIR/english" />
 		<require-file name="theme/Bookmarks.french.php" destination="LANGUAGEDIR/french" />
 		<require-file name="theme/Bookmarks.turkish.php" destination="LANGUAGEDIR/turkish" />
+		<require-file name="theme/Bookmarks.german.php" destination="LANGUAGEDIR/german" />
 		<hook hook="integrate_general_mod_settings" file="SOURCEDIR/Bookmarks.integration.php" function="igm_bookmarks" />
 		<hook hook="integrate_load_permissions" file="SOURCEDIR/Bookmarks.integration.php" function="ilp_bookmarks" />
 		<hook hook="integrate_remove_topics" file="SOURCEDIR/Bookmarks.integration.php" function="irt_bookmarks" />
@@ -53,6 +55,7 @@
 		<remove-file name="LANGUAGEDIR/english/Bookmarks.english.php" />
 		<remove-file name="LANGUAGEDIR/french/Bookmarks.french.php" />
 		<remove-file name="LANGUAGEDIR/turkish/Bookmarks.turkish.php" />
+		<remove-file name="LANGUAGEDIR/german/Bookmarks.german.php" />
 	</uninstall>
 
 </package-info>
