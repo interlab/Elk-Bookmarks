@@ -30,7 +30,7 @@ class Bookmarks_Controller extends Action_Controller
 	/**
 	 * Entry point for all bookmark actions
 	 */
-	function action_bookmarks_main()
+	public function action_bookmarks_main()
 	{
 		global $txt, $context, $scripturl;
 
