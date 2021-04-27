@@ -9,16 +9,13 @@
  *
  */
 
-if (!defined('ELK'))
-	die('No access...');
-
 /**
  * Integration hook, integrate_general_mod_settings
  *
  * - Not a lot of settings for this addon so we add them under the predefined
  * Miscellaneous area of the forum
  *
- * @param mixed[] $config_vars
+ * @param array $config_vars
  */
 function igm_bookmarks(&$config_vars)
 {
@@ -36,11 +33,11 @@ function igm_bookmarks(&$config_vars)
  * - Permissions hook, integrate_load_permissions, called from ManagePermissions.php
  * - used to add new permissions
  *
- * @param mixed[] $permissionGroups
- * @param mixed[] $permissionList
- * @param mixed[] $leftPermissionGroups
- * @param mixed[] $hiddenPermissions
- * @param mixed[] $relabelPermissions
+ * @param array $permissionGroups
+ * @param array $permissionList
+ * @param array $leftPermissionGroups
+ * @param array $hiddenPermissions
+ * @param array $relabelPermissions
  */
 function ilp_bookmarks(&$permissionGroups, &$permissionList, &$leftPermissionGroups, &$hiddenPermissions, &$relabelPermissions)
 {
@@ -79,7 +76,9 @@ function idb_bookmarks()
 
 	// Not enabled ...
 	if (empty($modSettings['bookmarks_enabled']))
+	{
 		return;
+	}
 
 	loadLanguage('Bookmarks');
 
@@ -96,7 +95,7 @@ function idb_bookmarks()
 	));
 
 	// Add bookmark to the normal button array
-	$context['normal_buttons'] =  elk_array_insert($context['normal_buttons'], 'reply', $bookmarks, 'after');
+	$context['normal_buttons'] = elk_array_insert($context['normal_buttons'], 'reply', $bookmarks, 'after');
 }
 
 /**
@@ -112,7 +111,9 @@ function imb_bookmarks(&$buttons)
 
 	// Not enabled ...
 	if (empty($modSettings['bookmarks_enabled']))
+	{
 		return;
+	}
 
 	loadLanguage('Bookmarks');
 

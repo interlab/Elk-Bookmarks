@@ -9,9 +9,6 @@
  *
  */
 
-if (!defined('ELK'))
-	die('No access...');
-
 /**
  * Adds a bookmark for a certain topic / user.
  *
@@ -64,7 +61,7 @@ function deleteBookmarks($id_member, $topic_ids)
 		)
 	);
 
-	// Return the amount of deleted bookmarks, unless an error occured.
+	// Return the amount of deleted bookmarks, unless an error occurred.
 	return $result ? $db->affected_rows() : false;
 }
 
@@ -182,7 +179,9 @@ function delete_topic_bookmark($topics)
 	$db = database();
 
 	if (!is_array($topics))
+	{
 		$topics = array($topics);
+	}
 
 	$db->query('', '
 		DELETE FROM {db_prefix}bookmarks

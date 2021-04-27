@@ -16,4 +16,3 @@ $txt['bookmark_add_exists'] = 'Ce sujet est déjà dans vos favoris !';
 $txt['bookmark_add_failed'] = 'Echec lors de l\'ajout de ce sujet à vos favoris.';
 $txt['permissionname_make_bookmarks'] = 'Créer des favoris pour les sujets';
 $txt['cannot_make_bookmarks'] = 'Désolé, vous n\'avez pas le droit de créer des favoris.';
-?>

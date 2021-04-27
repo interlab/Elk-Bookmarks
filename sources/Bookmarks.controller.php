@@ -9,9 +9,6 @@
  *
  */
 
-if (!defined('ELK'))
-	die('No access...');
-
 class Bookmarks_Controller extends Action_Controller
 {
 	/**
@@ -75,7 +72,9 @@ class Bookmarks_Controller extends Action_Controller
 
 		// Set any messages
 		if (!empty($this->_result))
+		{
 			$context['bookmark_result'] = is_array($this->_result) ? sprintf($txt[$this->_result[0]], $this->_result[1]) : $txt[$this->_result];
+		}
 	}
 
 	/**
@@ -100,7 +99,9 @@ class Bookmarks_Controller extends Action_Controller
 
 		// No topic, can't add a bookmark then
 		if (empty($_GET['topic']))
+		{
 			$this->_result = 'bookmark_add_failed';
+		}
 		else
 		{
 			$id_topic = (int) $_GET['topic'];
@@ -126,20 +127,24 @@ class Bookmarks_Controller extends Action_Controller
 
 		// None to remove, what are you doing?
 		if (empty($_POST['remove_bookmarks']))
+		{
 			$this->_result = 'bookmark_delete_failure';
+		}
 		else
 		{
 			$topic_ids = array();
 
 			// Make sure we have valid id's here.
 			foreach ($_POST['remove_bookmarks'] as $index => $id)
+			{
 				$topic_ids[$index] = (int) $id;
+			}
 
 			// Remove what we can
 			$result = deleteBookmarks($user_info['id'], $topic_ids);
 
 			// Return the amount of deleted bookmarks, unless an error occurred.
-			$this->_result = $result ? array('bookmark_delete_success', $result)  : 'bookmark_delete_failure';
+			$this->_result = $result ? array('bookmark_delete_success', $result) : 'bookmark_delete_failure';
 		}
 
 		// reLoad this user's bookmarks
