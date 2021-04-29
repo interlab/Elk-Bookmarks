@@ -119,7 +119,7 @@ function imb_bookmarks(&$buttons)
 
 	// Where do we want to place the My Bookmarks button
 	// $insert_after = empty($modSettings['bookmarks_buttonLocation']) ? 'theme' : $modSettings['bookmarks_buttonLocation'];
-	$insert_after = 'memberlist';
+	$insert_after = 'theme';
 
 	// Define the new menu item(s), this will call for GoogleMap.controller
 	$new_menu = array(
