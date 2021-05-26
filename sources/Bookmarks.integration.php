@@ -66,24 +66,57 @@ function irt_bookmarks($topics)
 }
 
 /**
+ * integrate_topic_query hook, called from Display.controller
+ * @param array $topic_selects
+ * @param array $topic_tables
+ * @param array $topic_parameters
+ */
+function bmks_integrate_topic_query(&$topic_selects, &$topic_tables, &$topic_parameters)
+{
+	global $modSettings, $context;
+
+	$context['can_make_bookmarks'] = !empty($modSettings['bookmarks_enabled']) && allowedTo('make_bookmarks');
+
+	if (!$context['can_make_bookmarks'])
+	{
+		return;
+	}
+
+	$topic_selects[] = 'bmks.id_topic AS bookmark';
+	$topic_tables[] = 'LEFT JOIN {db_prefix}bookmarks AS bmks ON (bmks.id_member = {int:member} AND bmks.id_topic = {int:topic})';
+}
+
+/**
+ * integrate_display_topic hook, called from Display.controller
+ * @param array $topicinfo
+ */
+function bmks_integrate_display_topic($topicinfo)
+{
+	global $context;
+
+	if (!$context['can_make_bookmarks'])
+	{
+		return;
+	}
+
+	$context['has_bookmark'] = !empty($topicinfo['bookmark']);
+}
+
+/**
  * integrate_display_buttons hook, called from Display.controller
  *
  * - Used to add additional buttons to topic views
  */
 function idb_bookmarks()
 {
-	global $context, $scripturl, $modSettings;
+	global $context, $scripturl;
 
-	// Not enabled ...
-	if (empty($modSettings['bookmarks_enabled']))
+	if (!$context['can_make_bookmarks'])
 	{
 		return;
 	}
 
 	loadLanguage('Bookmarks');
-
-	// First determine if they can make bookmarks
-	$context['can_make_bookmarks'] = allowedTo('make_bookmarks');
 
 	// Define the new button
 	$bookmarks = array('bookmarks' => array(
@@ -107,10 +140,11 @@ function idb_bookmarks()
  */
 function imb_bookmarks(&$buttons)
 {
-	global $scripturl, $txt, $modSettings;
+	global $scripturl, $txt, $context, $modSettings;
 
-	// Not enabled ...
-	if (empty($modSettings['bookmarks_enabled']))
+	$bookmarks_off = empty($modSettings['bookmarks_enabled']) || !allowedTo('make_bookmarks');
+
+	if ($bookmarks_off)
 	{
 		return;
 	}
@@ -126,32 +160,9 @@ function imb_bookmarks(&$buttons)
 		'bookmarks' => array(
 			'title' => $txt['bookmarks'],
 			'href' => $scripturl . '?action=bookmarks',
-			'show' => !empty($modSettings['bookmarks_enabled']) && allowedTo('make_bookmarks'),
+			'show' => true,
 		)
 	);
 
 	$buttons['profile']['sub_buttons'] = elk_array_insert($buttons['profile']['sub_buttons'], $insert_after, $new_menu, 'after');
-}
-
-/**
- * integrate_topic_query hook, called from Display.controller
- * @param array $topic_selects
- * @param array $topic_tables
- * @param array $topic_parameters
- */
-function bmks_integrate_topic_query(&$topic_selects, &$topic_tables, &$topic_parameters)
-{
-	$topic_selects[] = 'bmks.id_topic AS bookmark';
-	$topic_tables[] = 'LEFT JOIN {db_prefix}bookmarks AS bmks ON (bmks.id_member = {int:member} AND bmks.id_topic = {int:topic})';
-}
-
-/**
- * integrate_display_topic hook, called from Display.controller
- * @param array $topicinfo
- */
-function bmks_integrate_display_topic($topicinfo)
-{
-	global $context;
-
-	$context['has_bookmark'] = !empty($topicinfo['bookmark']);
 }
