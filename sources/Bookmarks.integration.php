@@ -139,7 +139,7 @@ function imb_bookmarks(&$buttons)
  * @param array $topic_tables
  * @param array $topic_parameters
  */
-function bmrks_integrate_topic_query(&$topic_selects, &$topic_tables, &$topic_parameters)
+function bmks_integrate_topic_query(&$topic_selects, &$topic_tables, &$topic_parameters)
 {
 	$topic_selects[] = 'bmks.id_topic AS bookmark';
 	$topic_tables[] = 'LEFT JOIN {db_prefix}bookmarks AS bmks ON (bmks.id_member = {int:member} AND bmks.id_topic = {int:topic})';
@@ -149,7 +149,7 @@ function bmrks_integrate_topic_query(&$topic_selects, &$topic_tables, &$topic_pa
  * integrate_display_topic hook, called from Display.controller
  * @param array $topicinfo
  */
-function bmrks_integrate_display_topic($topicinfo)
+function bmks_integrate_display_topic($topicinfo)
 {
 	global $context;
 
