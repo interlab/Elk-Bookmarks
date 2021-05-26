@@ -118,7 +118,7 @@ function idb_bookmarks()
 
 	loadLanguage('Bookmarks');
 
-	$url = $context['has_bookmark'] ? $scripturl . '?action=bookmarks' : $scripturl . '?action=bookmarks;sa=add;topic=' . $context['current_topic'] . ';' . $context['session_var'] . '=' . $context['session_id'];
+	$url = $scripturl . '?action=bookmarks' . ($context['has_bookmark'] ? '' : ';sa=add;topic=' . $context['current_topic'] . ';' . $context['session_var'] . '=' . $context['session_id']);
 
 	// Define the new button
 	$bookmarks = array('bookmarks' => array(
@@ -142,7 +142,7 @@ function idb_bookmarks()
  */
 function imb_bookmarks(&$buttons)
 {
-	global $scripturl, $txt, $context, $modSettings;
+	global $scripturl, $txt, $modSettings;
 
 	$bookmarks_off = empty($modSettings['bookmarks_enabled']) || !allowedTo('make_bookmarks');
 
