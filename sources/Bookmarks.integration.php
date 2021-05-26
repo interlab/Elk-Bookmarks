@@ -118,13 +118,15 @@ function idb_bookmarks()
 
 	loadLanguage('Bookmarks');
 
+	$url = $context['has_bookmark'] ? $scripturl . '?action=bookmarks' : $scripturl . '?action=bookmarks;sa=add;topic=' . $context['current_topic'] . ';' . $context['session_var'] . '=' . $context['session_id'];
+
 	// Define the new button
 	$bookmarks = array('bookmarks' => array(
 		'test' => 'can_make_bookmarks',
 		'text' => $context['has_bookmark'] ? 'bookmark_exists' : 'bookmark',
 		'image' => 'bookmark.png',
 		'lang' => true,
-		'url' => $scripturl . '?action=bookmarks;sa=add;topic=' . $context['current_topic'] . ';' . $context['session_var'] . '=' . $context['session_id']
+		'url' => $url
 	));
 
 	// Add bookmark to the normal button array
