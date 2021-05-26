@@ -56,7 +56,7 @@
 		<hook reverse="true" hook="integrate_remove_topics" file="SOURCEDIR/Bookmarks.integration.php" function="irt_bookmarks" />
 		<hook reverse="true" hook="integrate_display_buttons" file="SOURCEDIR/Bookmarks.integration.php" function="idb_bookmarks" />
 		<hook reverse="true" hook="integrate_menu_buttons" file="SOURCEDIR/Bookmarks.integration.php" function="imb_bookmarks" />
-        <hook reverse="true" hook="integrate_topic_query" file="SOURCEDIR/Bookmarks.integration.php" function="bmks_integrate_topic_query" />
+		<hook reverse="true" hook="integrate_topic_query" file="SOURCEDIR/Bookmarks.integration.php" function="bmks_integrate_topic_query" />
 		<hook reverse="true" hook="integrate_display_topic" file="SOURCEDIR/Bookmarks.integration.php" function="bmks_integrate_display_topic" />
 		<remove-file name="CONTROLLERDIR/Bookmarks.controller.php" />
 		<remove-file name="SUBSDIR/Bookmarks.subs.php" />
