@@ -4,7 +4,7 @@
 	<name>Bookmarks</name>
 	<id>aaronvg:bookmarks</id>
 	<type>addon</type>
-	<version>2.5.2</version>
+	<version>2.6.0</version>
 
 	<install for="1.0 - 1.0.99">
 		<require-file name="sources/Bookmarks.controller.php" destination="CONTROLLERDIR" />
@@ -22,6 +22,8 @@
 		<hook hook="integrate_remove_topics" file="SOURCEDIR/Bookmarks.integration.php" function="irt_bookmarks" />
 		<hook hook="integrate_display_buttons" file="SOURCEDIR/Bookmarks.integration.php" function="idb_bookmarks" />
 		<hook hook="integrate_menu_buttons" file="SOURCEDIR/Bookmarks.integration.php" function="imb_bookmarks" />
+		<hook hook="integrate_topic_query" file="SOURCEDIR/Bookmarks.integration.php" function="bmrks_integrate_topic_query" />
+		<hook hook="integrate_display_topic" file="SOURCEDIR/Bookmarks.integration.php" function="bmrks_integrate_display_topic" />
 		<database type="file">install.php</database>
 		<redirect url="index.php?action=admin;area=addonsettings;sa=general" timeout="5000">redirect.txt</redirect>
 	</install>
@@ -42,6 +44,8 @@
 		<hook hook="integrate_remove_topics" file="SOURCEDIR/Bookmarks.integration.php" function="irt_bookmarks" />
 		<hook hook="integrate_display_buttons" file="SOURCEDIR/Bookmarks.integration.php" function="idb_bookmarks" />
 		<hook hook="integrate_menu_buttons" file="SOURCEDIR/Bookmarks.integration.php" function="imb_bookmarks" />
+		<hook hook="integrate_topic_query" file="SOURCEDIR/Bookmarks.integration.php" function="bmrks_integrate_topic_query" />
+		<hook hook="integrate_display_topic" file="SOURCEDIR/Bookmarks.integration.php" function="bmrks_integrate_display_topic" />
 		<database type="file">install.php</database>
 		<redirect url="index.php?action=admin;area=addonsettings;sa=general" timeout="5000">redirect.txt</redirect>
 	</install>
@@ -52,6 +56,8 @@
 		<hook reverse="true" hook="integrate_remove_topics" file="SOURCEDIR/Bookmarks.integration.php" function="irt_bookmarks" />
 		<hook reverse="true" hook="integrate_display_buttons" file="SOURCEDIR/Bookmarks.integration.php" function="idb_bookmarks" />
 		<hook reverse="true" hook="integrate_menu_buttons" file="SOURCEDIR/Bookmarks.integration.php" function="imb_bookmarks" />
+        <hook reverse="true" hook="integrate_topic_query" file="SOURCEDIR/Bookmarks.integration.php" function="bmrks_integrate_topic_query" />
+		<hook reverse="true" hook="integrate_display_topic" file="SOURCEDIR/Bookmarks.integration.php" function="bmrks_integrate_display_topic" />
 		<remove-file name="CONTROLLERDIR/Bookmarks.controller.php" />
 		<remove-file name="SUBSDIR/Bookmarks.subs.php" />
 		<remove-file name="SOURCEDIR/Bookmarks.integration.php" />

@@ -3,7 +3,8 @@
 $txt['bookmarks_enabled'] = 'Включить закладки';
 $txt['bookmarks'] = 'Избранное';
 $txt['bookmark_list'] = 'Закладки';
-$txt['bookmark'] = 'Избранное';
+$txt['bookmark'] = 'Закладка';
+$txt['bookmark_exists'] = '✔️ Закладка';
 $txt['bookmark_list_empty'] = 'На данный момент список пуст. Добавьте закладку, нажав кнопку "Избранное" в теме.';
 $txt['bookmark_open_window'] = 'Открыть в новом окне';
 $txt['bookmark_delete'] = 'Удалить выбранные закладки';

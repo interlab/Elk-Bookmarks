@@ -4,6 +4,7 @@ $txt['bookmarks_enabled'] = 'Activer les favoris';
 $txt['bookmarks'] = 'Mes favoris';
 $txt['bookmark_list'] = 'Favoris';
 $txt['bookmark'] = 'Favori';
+$txt['bookmark_exists'] = '✔️ Favori';
 $txt['bookmark_list_empty'] = 'Vous avez aucun favori pour le moment. Ajoutez-en un en cliquant sur \'Ajouter favori\' dans les sujets.';
 $txt['bookmark_open_window'] = 'Ouvrir dans une nouvelle fenêtre';
 $txt['bookmark_delete'] = 'Supprimer les favoris sélectionnés';

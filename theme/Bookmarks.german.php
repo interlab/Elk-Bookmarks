@@ -4,6 +4,7 @@ $txt['bookmarks_enabled'] = 'Aktiviere Bookmarks';
 $txt['bookmarks'] = 'Meine Bookmarks';
 $txt['bookmark_list'] = 'Bookmarks';
 $txt['bookmark'] = 'Bookmark';
+$txt['bookmark_exists'] = '✔️ Bookmark';
 $txt['bookmark_list_empty'] = 'Derzeit hast du keine Bookmarks gesetzt. Setze Bookmarks, indem du \'Setze Bookmark\' in Themen deiner Wahl anklickst.';
 $txt['bookmark_open_window'] = 'In neuem Fenster öffnen';
 $txt['bookmark_delete'] = 'Lösche markierte Bookmarks';

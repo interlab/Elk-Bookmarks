@@ -68,6 +68,8 @@ function deleteBookmarks($id_member, $topic_ids)
 /**
  * Gathers a list of all of this user's bookmarks.
  *
+ * @todo: pagination
+ *
  * @param int $id_member
  */
 function getBookmarks($id_member)

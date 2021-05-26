@@ -113,7 +113,7 @@ class Bookmarks_Controller extends Action_Controller
 
 		// reLoad this user's bookmarks
 		$this->action_bookmarks_get();
-		redirectexit('action=bookmarks;' . $context['session_var'] . '=' . $context['session_id']);
+		// redirectexit('action=bookmarks;' . $context['session_var'] . '=' . $context['session_id']);
 	}
 
 	/**

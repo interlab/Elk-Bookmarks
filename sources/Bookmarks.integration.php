@@ -88,7 +88,7 @@ function idb_bookmarks()
 	// Define the new button
 	$bookmarks = array('bookmarks' => array(
 		'test' => 'can_make_bookmarks',
-		'text' => 'bookmark',
+		'text' => $context['has_bookmark'] ? 'bookmark_exists' : 'bookmark',
 		'image' => 'bookmark.png',
 		'lang' => true,
 		'url' => $scripturl . '?action=bookmarks;sa=add;topic=' . $context['current_topic'] . ';' . $context['session_var'] . '=' . $context['session_id']
@@ -131,4 +131,27 @@ function imb_bookmarks(&$buttons)
 	);
 
 	$buttons['profile']['sub_buttons'] = elk_array_insert($buttons['profile']['sub_buttons'], $insert_after, $new_menu, 'after');
+}
+
+/**
+ * integrate_topic_query hook, called from Display.controller
+ * @param array $topic_selects
+ * @param array $topic_tables
+ * @param array $topic_parameters
+ */
+function bmrks_integrate_topic_query(&$topic_selects, &$topic_tables, &$topic_parameters)
+{
+	$topic_selects[] = 'bmks.id_topic AS bookmark';
+	$topic_tables[] = 'LEFT JOIN {db_prefix}bookmarks AS bmks ON (bmks.id_member = {int:member} AND bmks.id_topic = {int:topic})';
+}
+
+/**
+ * integrate_display_topic hook, called from Display.controller
+ * @param array $topicinfo
+ */
+function bmrks_integrate_display_topic($topicinfo)
+{
+	global $context;
+
+	$context['has_bookmark'] = !empty($topicinfo['bookmark']);
 }

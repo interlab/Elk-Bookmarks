@@ -4,6 +4,7 @@ $txt['bookmarks_enabled'] = 'Abilita Segnalibri';
 $txt['bookmarks'] = 'I miei Segnalibri';
 $txt['bookmark_list'] = 'Segnalibri';
 $txt['bookmark'] = 'Segnalibro';
+$txt['bookmark_exists'] = '✔️ Segnalibro';
 $txt['bookmark_list_empty'] = 'Al momento non hai segnalibri. Puoi aggiungere nuovi segnalibri cliccando su \'aggiungi segnalibro\' all\'interno dei topic.';
 $txt['bookmark_open_window'] = 'Apri in una nuova finestra';
 $txt['bookmark_delete'] = 'Elimina segnalibri selezionati';
