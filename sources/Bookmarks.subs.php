@@ -65,14 +65,42 @@ function deleteBookmarks($id_member, $topic_ids)
 	return $result ? $db->affected_rows() : false;
 }
 
+function getCountBookmarks($id_member)
+{
+	global $modSettings;
+
+	$db = database();
+
+	$request = $db->query('substring', '
+		SELECT COUNT(t.id_topic)
+		FROM {db_prefix}bookmarks AS bm
+			INNER JOIN {db_prefix}topics AS t ON (bm.id_topic = t.id_topic)
+			INNER JOIN {db_prefix}boards AS b ON (t.id_board = b.id_board)
+			INNER JOIN {db_prefix}messages AS ml ON (ml.id_msg = t.id_last_msg)
+			INNER JOIN {db_prefix}messages AS mf ON (mf.id_msg = t.id_first_msg)
+		WHERE
+			bm.id_member = {int:current_member}' . (!$modSettings['postmod_active'] || allowedTo('approve_posts') ? '' : '
+			AND (t.approved = {int:is_approved} OR t.id_member_started = {int:current_member})') . '
+			AND {query_see_board}
+		LIMIT 1',
+		array(
+			'current_member' => $id_member,
+			'is_approved' => 1,
+		)
+	);
+    $result = $db->fetch_row($request);
+	$total = empty($result) ? 0 : (int) $result[0];
+	$db->free_result($request);
+
+	return $total;
+}
+
 /**
  * Gathers a list of all of this user's bookmarks.
  *
- * @todo: pagination
- *
  * @param int $id_member
  */
-function getBookmarks($id_member)
+function getBookmarks($id_member, $offset, $limit)
 {
 	global $settings, $scripturl, $modSettings, $user_info, $txt, $context;
 
@@ -102,10 +130,13 @@ function getBookmarks($id_member)
 			bm.id_member = {int:current_member}' . (!$modSettings['postmod_active'] || allowedTo('approve_posts') ? '' : '
 			AND (t.approved = {int:is_approved} OR t.id_member_started = {int:current_member})') . '
 			AND {query_see_board}
-		ORDER BY t.id_last_msg DESC',
+		ORDER BY t.id_last_msg DESC
+		LIMIT {int:offset}, {int:limit}',
 		array(
 			'current_member' => $id_member,
 			'is_approved' => 1,
+			'offset' => $offset,
+			'limit' => $limit,
 		)
 	);
 	$bookmarks = array();
