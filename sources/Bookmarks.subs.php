@@ -88,7 +88,7 @@ function getCountBookmarks($id_member)
 			'is_approved' => 1,
 		)
 	);
-    $result = $db->fetch_row($request);
+	$result = $db->fetch_row($request);
 	$total = empty($result) ? 0 : (int) $result[0];
 	$db->free_result($request);
 

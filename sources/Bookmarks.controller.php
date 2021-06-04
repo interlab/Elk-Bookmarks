@@ -94,7 +94,7 @@ class Bookmarks_Controller extends Action_Controller
 		$offset = empty($_GET['start']) ? 0 : (int) $_GET['start'];
 		$limit = 25;
 
-		$context['page_index'] = constructPageIndex($scripturl . '?action=bookmarks;start' . '%1$d', $offset, $total, $limit);
+		$context['page_index'] = constructPageIndex($scripturl . '?action=bookmarks', $offset, $total, $limit);
 		$context['page_info'] = array(
 			'current_page' => $offset / $limit + 1,
 			'num_pages' => floor(($total - 1) / $limit) + 1,
