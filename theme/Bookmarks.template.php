@@ -14,7 +14,8 @@ function template_main()
 	// We know how to sprite these
 	$message_icon_sprite = array('clip' => '', 'lamp' => '', 'poll' => '', 'question' => '', 'xx' => '', 'moved' => '', 'exclamation' => '', 'thumbup' => '', 'thumbdown' => '');
 
-	template_pagesection('normal_buttons', 'right');
+	if ($context['bookmarks'])
+		template_pagesection('normal_buttons', 'right');
 
 	// Let's get the show moving.
 	echo '
@@ -93,8 +94,6 @@ function template_main()
 					<input class="button_submit" type="submit" name="send" value="', $txt['bookmark_delete'], '" />
 				</div>
 			</form>';
-
-		template_pagesection('normal_buttons', 'right');
 	}
 	// Show a message saying there aren't any bookmarks yet
 	else
@@ -102,4 +101,7 @@ function template_main()
 		echo '
 			<div class="description">', $txt['bookmark_list_empty'], '</div>';
 	}
+
+	if ($context['bookmarks'])
+		template_pagesection('normal_buttons', 'right');
 }
