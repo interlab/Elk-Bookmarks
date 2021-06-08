@@ -82,10 +82,26 @@ class Bookmarks_Controller extends Action_Controller
 	 */
 	public function action_bookmarks_get()
 	{
-		global $user_info, $context;
+		global $user_info, $context, $scripturl;
+
+		$total = getCountBookmarks($user_info['id']);
+		if (!$total) {
+			$context['bookmarks'] = array();
+
+			return;
+		}
+
+		$offset = empty($_GET['start']) ? 0 : (int) $_GET['start'];
+		$limit = 25;
+
+		$context['page_index'] = constructPageIndex($scripturl . '?action=bookmarks', $offset, $total, $limit);
+		$context['page_info'] = array(
+			'current_page' => $offset / $limit + 1,
+			'num_pages' => floor(($total - 1) / $limit) + 1,
+		);
 
 		// Load this user's bookmarks
-		$context['bookmarks'] = getBookmarks($user_info['id']);
+		$context['bookmarks'] = getBookmarks($user_info['id'], $offset, $limit);
 	}
 
 	/**
@@ -113,7 +129,6 @@ class Bookmarks_Controller extends Action_Controller
 
 		// reLoad this user's bookmarks
 		$this->action_bookmarks_get();
-		redirectexit('action=bookmarks;' . $context['session_var'] . '=' . $context['session_id']);
 	}
 
 	/**

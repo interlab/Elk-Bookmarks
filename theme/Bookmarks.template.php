@@ -14,12 +14,17 @@ function template_main()
 	// We know how to sprite these
 	$message_icon_sprite = array('clip' => '', 'lamp' => '', 'poll' => '', 'question' => '', 'xx' => '', 'moved' => '', 'exclamation' => '', 'thumbup' => '', 'thumbdown' => '');
 
+	$not_empty = !empty($context['bookmarks']);
+
+	if ($not_empty)
+		template_pagesection('normal_buttons', 'right');
+
 	// Let's get the show moving.
 	echo '
 			<h3 class="category_header">', $txt['bookmark_list'], '</h3>';
 
 	// Show the bookmarks, if any.
-	if (!empty($context['bookmarks']))
+	if ($not_empty)
 	{
 		echo '
 			<form class="generic_list_wrapper" action="', $scripturl, '?action=bookmarks;sa=delete" method="post">
@@ -98,4 +103,7 @@ function template_main()
 		echo '
 			<div class="description">', $txt['bookmark_list_empty'], '</div>';
 	}
+
+	if ($not_empty)
+		template_pagesection('normal_buttons', 'right');
 }

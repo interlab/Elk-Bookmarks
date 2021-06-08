@@ -10,14 +10,12 @@
  */
 
 /**
- * Integration hook, integrate_general_mod_settings
- *
  * - Not a lot of settings for this addon so we add them under the predefined
  * Miscellaneous area of the forum
  *
  * @param array $config_vars
  */
-function igm_bookmarks(&$config_vars)
+function bmks_integrate_general_mod_settings(&$config_vars)
 {
 	loadLanguage('Bookmarks');
 
@@ -28,9 +26,7 @@ function igm_bookmarks(&$config_vars)
 }
 
 /**
- * ilp_bookmarks()
- *
- * - Permissions hook, integrate_load_permissions, called from ManagePermissions.php
+ * - Permissions hook, called from ManagePermissions.php
  * - used to add new permissions
  *
  * @param array $permissionGroups
@@ -39,8 +35,13 @@ function igm_bookmarks(&$config_vars)
  * @param array $hiddenPermissions
  * @param array $relabelPermissions
  */
-function ilp_bookmarks(&$permissionGroups, &$permissionList, &$leftPermissionGroups, &$hiddenPermissions, &$relabelPermissions)
-{
+function bmks_integrate_load_permissions(
+	&$permissionGroups,
+	&$permissionList,
+	&$leftPermissionGroups,
+	&$hiddenPermissions,
+	&$relabelPermissions
+) {
 	global $context;
 
 	loadLanguage('Bookmarks');
@@ -53,45 +54,78 @@ function ilp_bookmarks(&$permissionGroups, &$permissionList, &$leftPermissionGro
 }
 
 /**
- * irt_bookmarks
- *
- * integrate_remove_topics, used to remove information when a topic is being removed
+ * used to remove information when a topic is being removed
  *
  * @param int[] $topics
  */
-function irt_bookmarks($topics)
+function bmks_integrate_remove_topics($topics)
 {
 	require_once(SUBSDIR . '/Bookmarks.subs.php');
 	delete_topic_bookmark($topics);
 }
 
 /**
- * integrate_display_buttons hook, called from Display.controller
+ * called from Display.controller
+ * @param array $topic_selects
+ * @param array $topic_tables
+ * @param array $topic_parameters
+ */
+function bmks_integrate_topic_query(&$topic_selects, &$topic_tables, &$topic_parameters)
+{
+	global $modSettings, $context;
+
+	$context['can_make_bookmarks'] = !empty($modSettings['bookmarks_enabled']) && allowedTo('make_bookmarks');
+
+	if (!$context['can_make_bookmarks'])
+	{
+		return;
+	}
+
+	$topic_selects[] = 'bmks.id_topic AS bookmark';
+	$topic_tables[] = 'LEFT JOIN {db_prefix}bookmarks AS bmks ON (bmks.id_member = {int:member} AND bmks.id_topic = {int:topic})';
+}
+
+/**
+ * called from Display.controller
+ * @param array $topicinfo
+ */
+function bmks_integrate_display_topic($topicinfo)
+{
+	global $context;
+
+	if (!$context['can_make_bookmarks'])
+	{
+		return;
+	}
+
+	$context['has_bookmark'] = !empty($topicinfo['bookmark']);
+}
+
+/**
+ * called from Display.controller
  *
  * - Used to add additional buttons to topic views
  */
-function idb_bookmarks()
+function bmks_integrate_display_buttons()
 {
-	global $context, $scripturl, $modSettings;
+	global $context, $scripturl;
 
-	// Not enabled ...
-	if (empty($modSettings['bookmarks_enabled']))
+	if (!$context['can_make_bookmarks'])
 	{
 		return;
 	}
 
 	loadLanguage('Bookmarks');
 
-	// First determine if they can make bookmarks
-	$context['can_make_bookmarks'] = allowedTo('make_bookmarks');
+	$url = $scripturl . '?action=bookmarks' . ($context['has_bookmark'] ? '' : ';sa=add;topic=' . $context['current_topic'] . ';' . $context['session_var'] . '=' . $context['session_id']);
 
 	// Define the new button
 	$bookmarks = array('bookmarks' => array(
 		'test' => 'can_make_bookmarks',
-		'text' => 'bookmark',
+		'text' => $context['has_bookmark'] ? 'bookmark_exists' : 'bookmark',
 		'image' => 'bookmark.png',
 		'lang' => true,
-		'url' => $scripturl . '?action=bookmarks;sa=add;topic=' . $context['current_topic'] . ';' . $context['session_var'] . '=' . $context['session_id']
+		'url' => $url
 	));
 
 	// Add bookmark to the normal button array
@@ -99,18 +133,19 @@ function idb_bookmarks()
 }
 
 /**
- * integrate_menu_buttons hook, called from Subs.php
+ * called from Subs.php
  *
  * - Used to add top menu buttons
  *
  * @param mixed[] $buttons
  */
-function imb_bookmarks(&$buttons)
+function bmks_integrate_menu_buttons(&$buttons)
 {
 	global $scripturl, $txt, $modSettings;
 
-	// Not enabled ...
-	if (empty($modSettings['bookmarks_enabled']))
+	$bookmarks_off = empty($modSettings['bookmarks_enabled']) || !allowedTo('make_bookmarks');
+
+	if ($bookmarks_off)
 	{
 		return;
 	}
@@ -118,7 +153,6 @@ function imb_bookmarks(&$buttons)
 	loadLanguage('Bookmarks');
 
 	// Where do we want to place the My Bookmarks button
-	// $insert_after = empty($modSettings['bookmarks_buttonLocation']) ? 'theme' : $modSettings['bookmarks_buttonLocation'];
 	$insert_after = 'theme';
 
 	// Define the new menu item(s), this will call for GoogleMap.controller
@@ -126,7 +160,7 @@ function imb_bookmarks(&$buttons)
 		'bookmarks' => array(
 			'title' => $txt['bookmarks'],
 			'href' => $scripturl . '?action=bookmarks',
-			'show' => !empty($modSettings['bookmarks_enabled']) && allowedTo('make_bookmarks'),
+			'show' => true,
 		)
 	);
 
