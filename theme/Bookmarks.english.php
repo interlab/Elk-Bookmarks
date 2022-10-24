@@ -1,5 +1,6 @@
 <?php
 
+$txt['bmks_added'] = 'Added';
 $txt['bookmarks_enabled'] = 'Enable Bookmarks';
 $txt['bookmarks'] = 'My Bookmarks';
 $txt['bookmark_list'] = 'Bookmarks';

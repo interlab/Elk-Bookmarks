@@ -27,10 +27,12 @@ function addBookmark($id_member, $id_topic = null)
 		array(
 			'id_member' => 'int',
 			'id_topic' => 'int',
+			'added_time' => 'int',
 		),
 		array(
 			'id_member' => $id_member,
 			'id_topic' => $id_topic,
+			'added_time' => time(),
 		),
 		array()
 	);
@@ -116,7 +118,8 @@ function getBookmarks($id_member, $offset, $limit)
 			IFNULL(meml.real_name, ml.poster_name) AS last_display_name,
 			mf.poster_time AS first_poster_time, mf.subject AS first_subject, mf.icon AS first_icon,
 			mf.poster_name AS first_member_name, mf.id_member AS first_id_member,
-			IFNULL(memf.real_name, mf.poster_name) AS first_display_name
+			IFNULL(memf.real_name, mf.poster_name) AS first_display_name,
+			bm.added_time AS bm_added_time
 		FROM {db_prefix}bookmarks AS bm
 			INNER JOIN {db_prefix}topics AS t ON (bm.id_topic = t.id_topic)
 			INNER JOIN {db_prefix}boards AS b ON (t.id_board = b.id_board)
@@ -130,7 +133,7 @@ function getBookmarks($id_member, $offset, $limit)
 			bm.id_member = {int:current_member}' . (!$modSettings['postmod_active'] || allowedTo('approve_posts') ? '' : '
 			AND (t.approved = {int:is_approved} OR t.id_member_started = {int:current_member})') . '
 			AND {query_see_board}
-		ORDER BY t.id_last_msg DESC
+		ORDER BY bm.added_time DESC, t.id_last_msg DESC
 		LIMIT {int:offset}, {int:limit}',
 		array(
 			'current_member' => $id_member,
@@ -195,6 +198,7 @@ function getBookmarks($id_member, $offset, $limit)
 			'new_href' => $scripturl . '?topic=' . $row['id_topic'] . '.msg' . $row['new_from'] . '#new',
 			'replies' => $row['num_replies'],
 			'views' => $row['num_views'],
+			'bookmark' => array('time' => standardTime($row['bm_added_time'])),
 		);
 	}
 	$db->free_result($request);

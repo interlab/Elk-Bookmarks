@@ -33,6 +33,14 @@ $dbtbl->db_create_table($db_prefix . 'bookmarks',
 			'type' => 'mediumint',
 			'size' => 8,
 		),
+		array(
+			'name' => 'added_time',
+			'type' => 'int',
+			'size' => 10,
+			'null' => false,
+			'unsigned' => true,
+			'default' => 0,
+		),
 	),
 	array(
 		array(

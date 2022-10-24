@@ -36,7 +36,8 @@ function template_main()
 							<th class="nowrap">', $txt['started_by'], '</th>
 							<th class="centertext">', $txt['replies'], '</th>
 							<th class="centertext">', $txt['views'], '</th>
-							<th class="grid25">', $txt['latest_post'], '</th>
+							<th class="grid20">', $txt['latest_post'], '</th>
+							<th class="grid20">', $txt['bmks_added'], '</th>
 							<th class="centertext">
 								<input type="checkbox" class="input_check" onclick="invertAll(this, this.form);" />
 							</th>
@@ -81,6 +82,9 @@ function template_main()
 									', $txt['by'], ' ', $topic['last_post']['member']['link'], '
 								</span>
 								<a class="topicicon i-last_post" href="', $topic['last_post']['href'], '" title="', $txt['last_post'], '"></a>
+							</td>
+							<td>
+								<span class="smalltext">', $topic['bookmark']['time'], '</span>
 							</td>
 							<td class="centertext">
 								<input type="checkbox" name="remove_bookmarks[]" value="', $topic['id'], '" class="input_check" />
