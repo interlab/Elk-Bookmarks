@@ -4,7 +4,7 @@
 	<name>Bookmarks</name>
 	<id>aaronvg:bookmarks</id>
 	<type>addon</type>
-	<version>2.7.0</version>
+	<version>3.0.0</version>
 
 	<install for="1.0 - 1.0.99">
 		<require-file name="sources/Bookmarks.controller.php" destination="CONTROLLERDIR" />

@@ -5,7 +5,7 @@
  * @author Aaron
  * @license BSD http://opensource.org/licenses/BSD-3-Clause
  *
- * @version 1.0.1
+ * @version 3.0.0
  *
  */
 
@@ -195,19 +195,21 @@ class Bookmarks_Controller extends Action_Controller
 	{
 		global $user_info;
 
-		checkSession('post');
+		checkSession('request');
 
-		// None to remove, what are you doing?
-		if (empty($_POST['remove_bookmarks'])) {
-			$this->_result = 'bookmark_delete_failure';
-		} else {
-			$ids = [];
+		$ids = [];
 
-			// Make sure we have valid id's here.
+		if (!empty($_GET['msg'])) {
+			$ids[] = (int) $_GET['msg'];
+		} elseif (!empty($_POST['remove_bookmarks'])) {
 			foreach ($_POST['remove_bookmarks'] as $id) {
 				$ids[] = (int) $id;
 			}
+		}
 
+		if (empty($ids)) {
+			$this->_result = 'bookmark_delete_failure';
+		} else {
 			if ($this->is_members) {
 				$result = deleteBookmarksMembers($user_info['id'], $ids);
 			} else {

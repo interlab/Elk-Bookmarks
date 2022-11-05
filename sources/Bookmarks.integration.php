@@ -5,7 +5,7 @@
  * @author Aaron
  * @license BSD http://opensource.org/licenses/BSD-3-Clause
  *
- * @version 1.0
+ * @version 3.0.0
  *
  */
 
@@ -121,19 +121,17 @@ function bmks_integrate_message_query(&$msg_selects, &$msg_tables, &$msg_paramet
  */
 function bmks_integrate_before_prepare_display_context(&$message)
 {
-	// new ver future
 	global $context, $scripturl, $txt;
 
 	$context['has_bookmark'] = !empty($message['bookmark']);
 
 	$context['additional_drop_buttons']['star_button'] = [
-		'href' => $scripturl . '?action=bookmarks' .
-			($context['has_bookmark'] ? '' : ';sa=add;topic=' .
+		'href' => $scripturl . '?action=bookmarks;sa='.
+			($context['has_bookmark'] ? 'delete' : 'add').';topic=' .
 			$context['current_topic'] . ';msg=' . $message['id_msg'] .
-			';' . $context['session_var'] .
-			'=' . $context['session_id']),
+			';' . $context['session_var'] . '=' . $context['session_id'],
 		// 'text' => 'Bookmark',
-		'text' => $context['has_bookmark'] ? $txt['bookmark_exists'] : $txt['bookmark'],
+		'text' => $context['has_bookmark'] ? $txt['bmk_remove'] : $txt['bmk_add'],
 	];
 }
 

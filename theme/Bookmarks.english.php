@@ -9,7 +9,8 @@ $txt['bmk_add_success'] = 'The topic was successfully added to your bookmarks!';
 $txt['bmk_add_failed'] = 'Failed to add the topic to your bookmarks.';
 $txt['bookmark_messages_empty'] = 'You don\'t have any bookmarks at the moment. Add one by clicking \'Add bookmark\' in topics.';
 $txt['bookmark_members_empty'] = 'You don\'t have any bookmarks at the moment. Add one by clicking \'Add bookmark\' in member Profile Info page.';
-
+$txt['bmk_add'] = 'Add bookmark';
+$txt['bmk_remove'] = 'Remove bookmark';
 
 $txt['bookmarks_enabled'] = 'Enable Bookmarks';
 $txt['bookmarks'] = 'My Bookmarks';

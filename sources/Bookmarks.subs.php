@@ -5,7 +5,7 @@
  * @author Aaron
  * @license BSD http://opensource.org/licenses/BSD-3-Clause
  *
- * @version 1.0.1
+ * @version 3.0.0
  *
  */
 
