@@ -205,6 +205,9 @@ class Bookmarks_Controller extends Action_Controller
 			foreach ($_POST['remove_bookmarks'] as $id) {
 				$ids[] = (int) $id;
 			}
+		} elseif (!empty($_GET['u'])) {
+			$ids[] = (int) $_GET['u'];
+			$this->is_members = true;
 		}
 
 		if (empty($ids)) {

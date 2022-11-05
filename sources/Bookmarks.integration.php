@@ -198,5 +198,3 @@ function bmks_integrate_member_context($user, $display_custom_fields)
 	// dump($memberContext[$user]);
 	// die;
 }
-
-
