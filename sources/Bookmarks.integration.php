@@ -64,6 +64,7 @@ function bmks_integrate_remove_topics($topics)
 	delete_topic_bookmark($topics);
 }
 
+// todo: delete this
 /**
  * called from Display.controller
  * @param array $topic_selects
@@ -72,7 +73,34 @@ function bmks_integrate_remove_topics($topics)
  */
 function bmks_integrate_topic_query(&$topic_selects, &$topic_tables, &$topic_parameters)
 {
-	global $modSettings, $context;
+	
+}
+
+// todo: delete this
+/**
+ * called from Display.controller
+ * @param array $topicinfo
+ */
+function bmks_integrate_display_topic($topicinfo)
+{
+	
+}
+
+// todo: delete this
+/**
+ * called from Display.controller
+ *
+ * - Used to add additional buttons to topic views
+ */
+function bmks_integrate_display_buttons()
+{
+	
+}
+
+// Messages.subs.php
+function bmks_integrate_message_query(&$msg_selects, &$msg_tables, &$msg_parameters)
+{
+	global $modSettings, $context, $user_info;
 
 	$context['can_make_bookmarks'] = !empty($modSettings['bookmarks_enabled']) && allowedTo('make_bookmarks');
 
@@ -81,55 +109,32 @@ function bmks_integrate_topic_query(&$topic_selects, &$topic_tables, &$topic_par
 		return;
 	}
 
-	$topic_selects[] = 'bmks.id_topic AS bookmark';
-	$topic_tables[] = 'LEFT JOIN {db_prefix}bookmarks AS bmks ON (bmks.id_member = {int:member} AND bmks.id_topic = {int:topic})';
+	$msg_selects[] = 'bmk.id_msg AS bookmark';
+	$msg_tables[] = '
+			LEFT JOIN {db_prefix}bookmarks_messages AS bmk ON (bmk.id_member = {int:bmk_member}
+				AND bmk.id_msg = m.id_msg)';
+	$msg_parameters['bmk_member'] = $user_info['id'];
 }
 
 /**
  * called from Display.controller
- * @param array $topicinfo
  */
-function bmks_integrate_display_topic($topicinfo)
+function bmks_integrate_before_prepare_display_context(&$message)
 {
-	global $context;
+	// new ver future
+	global $context, $scripturl, $txt;
 
-	if (!$context['can_make_bookmarks'])
-	{
-		return;
-	}
+	$context['has_bookmark'] = !empty($message['bookmark']);
 
-	$context['has_bookmark'] = !empty($topicinfo['bookmark']);
-}
-
-/**
- * called from Display.controller
- *
- * - Used to add additional buttons to topic views
- */
-function bmks_integrate_display_buttons()
-{
-	global $context, $scripturl;
-
-	if (!$context['can_make_bookmarks'])
-	{
-		return;
-	}
-
-	loadLanguage('Bookmarks');
-
-	$url = $scripturl . '?action=bookmarks' . ($context['has_bookmark'] ? '' : ';sa=add;topic=' . $context['current_topic'] . ';' . $context['session_var'] . '=' . $context['session_id']);
-
-	// Define the new button
-	$bookmarks = array('bookmarks' => array(
-		'test' => 'can_make_bookmarks',
-		'text' => $context['has_bookmark'] ? 'bookmark_exists' : 'bookmark',
-		'image' => 'bookmark.png',
-		'lang' => true,
-		'url' => $url
-	));
-
-	// Add bookmark to the normal button array
-	$context['normal_buttons'] = elk_array_insert($context['normal_buttons'], 'reply', $bookmarks, 'after');
+	$context['additional_drop_buttons']['star_button'] = [
+		'href' => $scripturl . '?action=bookmarks' .
+			($context['has_bookmark'] ? '' : ';sa=add;topic=' .
+			$context['current_topic'] . ';msg=' . $message['id_msg'] .
+			';' . $context['session_var'] .
+			'=' . $context['session_id']),
+		// 'text' => 'Bookmark',
+		'text' => $context['has_bookmark'] ? $txt['bookmark_exists'] : $txt['bookmark'],
+	];
 }
 
 /**
@@ -156,13 +161,44 @@ function bmks_integrate_menu_buttons(&$buttons)
 	$insert_after = 'theme';
 
 	// Define the new menu item(s), this will call for GoogleMap.controller
-	$new_menu = array(
-		'bookmarks' => array(
+	$new_menu = [
+		'bookmarks' => [
 			'title' => $txt['bookmarks'],
 			'href' => $scripturl . '?action=bookmarks',
 			'show' => true,
-		)
-	);
+		]
+	];
 
 	$buttons['profile']['sub_buttons'] = elk_array_insert($buttons['profile']['sub_buttons'], $insert_after, $new_menu, 'after');
 }
+
+
+function bmks_integrate_load_member_data(&$select_columns, &$select_tables, $set)
+{
+	global $user_info;
+
+	if ($set !== 'profile') {
+		return;
+	}
+
+	$select_tables .= '
+			LEFT JOIN {db_prefix}bookmarks_members AS bmk ON (bmk.id_member = mem.id_member)
+				AND bmk.id_owner = '.intval($user_info['id']);
+
+	$select_columns .= ',
+			bmk.id_member AS bookmark';
+}
+
+function bmks_integrate_member_context($user, $display_custom_fields)
+{
+	global $memberContext, $user_profile;
+	// , $scripturl, $txt;
+
+	$b = isset($user_profile[$user]['bookmark']) ? $user_profile[$user]['bookmark'] : null;
+	$memberContext[$user]['bookmark'] = $b;
+	// echo '<hr>';
+	// dump($memberContext[$user]);
+	// die;
+}
+
+
