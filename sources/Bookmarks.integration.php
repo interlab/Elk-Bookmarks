@@ -127,8 +127,9 @@ function bmks_integrate_before_prepare_display_context(&$message)
 
 	$context['additional_drop_buttons']['star_button'] = [
 		'href' => $scripturl . '?action=bookmarks;sa='.
-			($context['has_bookmark'] ? 'delete' : 'add').';topic=' .
-			$context['current_topic'] . ';msg=' . $message['id_msg'] .
+			($context['has_bookmark'] ? 'delete' : 'add')
+            // . ';topic=' . $context['current_topic']
+            . ';msg=' . $message['id_msg'] .
 			';' . $context['session_var'] . '=' . $context['session_id'],
 		// 'text' => 'Bookmark',
 		'text' => $context['has_bookmark'] ? $txt['bmk_remove'] : $txt['bmk_add'],

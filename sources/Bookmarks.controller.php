@@ -156,7 +156,7 @@ class Bookmarks_Controller extends Action_Controller
 	}
 
 	/**
-	 * Adds a bookmark for a certain topic for a certain user.
+	 * Adds a bookmark for a certain msg for a certain user.
 	 */
 	public function action_bookmarks_add()
 	{
@@ -165,7 +165,7 @@ class Bookmarks_Controller extends Action_Controller
 		checkSession('get');
 
 		// No topic, can't add a bookmark then
-		if (empty($_GET['u']) && (empty($_GET['topic']) || empty($_GET['msg']))) {
+		if (empty($_GET['u']) && empty($_GET['msg'])) {
 			$this->_result = 'bmk_add_failed';
 		} elseif (!empty($_GET['u'])) {
 			$id_member = (int) $_GET['u'];
@@ -176,11 +176,10 @@ class Bookmarks_Controller extends Action_Controller
 			$this->bmk_type = 'members';
 			$this->is_members = true;
 		} else {
-			$id_topic = (int) $_GET['topic'];
 			$id_msg = (int) $_GET['msg'];
 
 			// Add a bookmark for this user and topic
-			$result = addBookmark($user_info['id'], $id_topic, $id_msg);
+			$result = addBookmark($user_info['id'], $id_msg);
 			$this->_result = $result == 0 ? 'bmk_add_failed' : 'bmk_add_success';
 		}
 

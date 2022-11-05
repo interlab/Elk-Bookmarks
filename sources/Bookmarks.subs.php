@@ -15,7 +15,7 @@
  * @param int $id_member
  * @param int $id_topic
  */
-function addBookmark($id_member, $id_topic, $id_msg)
+function addBookmark($id_member, $id_msg)
 {
 	$db = database();
 
@@ -24,13 +24,13 @@ function addBookmark($id_member, $id_topic, $id_msg)
 		'{db_prefix}bookmarks_messages',
 		[
 			'id_member' => 'int',
-			'id_topic' => 'int',
+			// 'id_topic' => 'int',
 			'id_msg' => 'int',
 			'added_time' => 'int',
 		],
 		[
 			'id_member' => $id_member,
-			'id_topic' => $id_topic,
+			// 'id_topic' => $id_topic,
 			'id_msg' => $id_msg,
 			'added_time' => time(),
 		],
@@ -199,9 +199,9 @@ function getCountBookmarksMessages($id_member)
 	$request = $db->query('', '
 		SELECT COUNT(t.id_topic)
 		FROM {db_prefix}bookmarks_messages AS bm
-			INNER JOIN {db_prefix}topics AS t ON (bm.id_topic = t.id_topic)
-			INNER JOIN {db_prefix}boards AS b ON (t.id_board = b.id_board)
 			INNER JOIN {db_prefix}messages AS m ON (m.id_msg = bm.id_msg)
+			INNER JOIN {db_prefix}topics AS t ON (m.id_topic = t.id_topic)
+			INNER JOIN {db_prefix}boards AS b ON (t.id_board = b.id_board)
 		WHERE
 			bm.id_member = {int:current_member}' . (!$modSettings['postmod_active'] || allowedTo('approve_posts') ? '' : '
 			AND (t.approved = {int:is_approved} OR t.id_member_started = {int:current_member})') . '
@@ -233,7 +233,7 @@ function getBookmarksMessages($id_member, $offset, $limit)
 	$request = $db->query('', '
 		SELECT
 			t.id_topic, t.num_replies, t.locked, t.num_views, t.id_board, t.id_last_msg, t.id_first_msg,
-			m.id_msg,
+			t.id_last_msg, m.id_msg,
 			b.name AS board_name,
 			IFNULL(lt.id_msg, IFNULL(lmr.id_msg, -1)) + 1 AS new_from,
 			m.poster_time AS msg_poster_time, m.id_msg_modified, m.subject AS msg_subject,
@@ -244,10 +244,10 @@ function getBookmarksMessages($id_member, $offset, $limit)
 			IFNULL(meml.real_name, ml.poster_name) AS last_display_name,
 			bm.added_time AS bm_added_time
 		FROM {db_prefix}bookmarks_messages AS bm
-			INNER JOIN {db_prefix}topics AS t ON (bm.id_topic = t.id_topic)
-			INNER JOIN {db_prefix}boards AS b ON (t.id_board = b.id_board)
 			INNER JOIN {db_prefix}messages AS m ON (m.id_msg = bm.id_msg)
-			INNER JOIN {db_prefix}messages AS ml ON (ml.id_msg = t.id_last_msg)
+			INNER JOIN {db_prefix}topics AS t ON (m.id_topic = t.id_topic)
+			INNER JOIN {db_prefix}boards AS b ON (t.id_board = b.id_board)
+            INNER JOIN {db_prefix}messages AS ml ON (ml.id_msg = t.id_last_msg)
 			LEFT JOIN {db_prefix}members AS meml ON (meml.id_member = ml.id_member)
 			LEFT JOIN {db_prefix}members AS mem ON (mem.id_member = m.id_member)
 			LEFT JOIN {db_prefix}log_topics AS lt ON (lt.id_topic = t.id_topic

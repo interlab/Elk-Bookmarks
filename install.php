@@ -30,12 +30,6 @@ $dbtbl->db_create_table($db_prefix . 'bookmarks',
 			'unsigned' => true,
 		),
 		array(
-			'name' => 'id_topic',
-			'type' => 'mediumint',
-			'size' => 8,
-			'unsigned' => true,
-		),
-		array(
 			'name' => 'id_msg',
 			'type' => 'mediumint',
 			'size' => 8,
@@ -53,11 +47,6 @@ $dbtbl->db_create_table($db_prefix . 'bookmarks',
 	array(
 		array(
 			'name' => 'bookmark',
-			'type' => 'unique',
-			'columns' => array('id_member', 'id_topic', 'id_msg'),
-		),
-		array(
-			'name' => 'bookmark2',
 			'type' => 'unique',
 			'columns' => array('id_member', 'id_msg'),
 		),
@@ -90,14 +79,9 @@ $dbtbl->db_create_table($db_prefix . 'bookmarks_members',
 	),
 	array(
 		array(
-			'name' => 'bookmark',
-			'type' => 'unique',
-			'columns' => array('id_member', 'id_topic', 'id_msg'),
-		),
-		array(
 			'name' => 'bookmark2',
 			'type' => 'unique',
-			'columns' => array('id_member', 'id_msg'),
+			'columns' => array('id_owner', 'id_member'),
 		),
 	),
 	array(),
