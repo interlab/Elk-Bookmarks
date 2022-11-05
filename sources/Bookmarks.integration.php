@@ -53,6 +53,7 @@ function bmks_integrate_load_permissions(
 	$permissionList['membergroup']['make_bookmarks'] = array(false, 'general', 'view_basic_info');
 }
 
+// todo: delete this
 /**
  * used to remove information when a topic is being removed
  *
@@ -60,8 +61,15 @@ function bmks_integrate_load_permissions(
  */
 function bmks_integrate_remove_topics($topics)
 {
+
+}
+
+function bmks_integrate_remove_message($message)
+{
+	global $user_info;
+
 	require_once(SUBSDIR . '/Bookmarks.subs.php');
-	delete_topic_bookmark($topics);
+	deleteBookmarksMessages($user_info['id'], [$message]);
 }
 
 // todo: delete this
@@ -128,8 +136,8 @@ function bmks_integrate_before_prepare_display_context(&$message)
 	$context['additional_drop_buttons']['star_button'] = [
 		'href' => $scripturl . '?action=bookmarks;sa='.
 			($context['has_bookmark'] ? 'delete' : 'add')
-            // . ';topic=' . $context['current_topic']
-            . ';msg=' . $message['id_msg'] .
+			// . ';topic=' . $context['current_topic']
+			. ';msg=' . $message['id_msg'] .
 			';' . $context['session_var'] . '=' . $context['session_id'],
 		// 'text' => 'Bookmark',
 		'text' => $context['has_bookmark'] ? $txt['bmk_remove'] : $txt['bmk_add'],

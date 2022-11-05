@@ -20,6 +20,7 @@
 		<hook hook="integrate_general_mod_settings" file="SOURCEDIR/Bookmarks.integration.php" function="bmks_integrate_general_mod_settings" />
 		<hook hook="integrate_load_permissions" file="SOURCEDIR/Bookmarks.integration.php" function="bmks_integrate_load_permissions" />
 		<hook hook="integrate_remove_topics" file="SOURCEDIR/Bookmarks.integration.php" function="bmks_integrate_remove_topics" />
+		<hook hook="integrate_remove_message" file="SOURCEDIR/Bookmarks.integration.php" function="bmks_integrate_remove_message" />
 		<hook hook="integrate_display_buttons" file="SOURCEDIR/Bookmarks.integration.php" function="bmks_integrate_display_buttons" />
 		<hook hook="integrate_menu_buttons" file="SOURCEDIR/Bookmarks.integration.php" function="bmks_integrate_menu_buttons" />
 		<hook hook="integrate_topic_query" file="SOURCEDIR/Bookmarks.integration.php" function="bmks_integrate_topic_query" />
@@ -46,7 +47,8 @@
 		<hook hook="integrate_general_mod_settings" file="SOURCEDIR/Bookmarks.integration.php" function="bmks_integrate_general_mod_settings" />
 		<hook hook="integrate_load_permissions" file="SOURCEDIR/Bookmarks.integration.php" function="bmks_integrate_load_permissions" />
 		<hook hook="integrate_remove_topics" file="SOURCEDIR/Bookmarks.integration.php" function="bmks_integrate_remove_topics" />
-		<hook hook="integrate_display_buttons" file="SOURCEDIR/Bookmarks.integration.php" function="bmks_integrate_display_buttons" />
+		<hook hook="integrate_remove_message" file="SOURCEDIR/Bookmarks.integration.php" function="bmks_integrate_remove_message" />
+        <hook hook="integrate_display_buttons" file="SOURCEDIR/Bookmarks.integration.php" function="bmks_integrate_display_buttons" />
 		<hook hook="integrate_menu_buttons" file="SOURCEDIR/Bookmarks.integration.php" function="bmks_integrate_menu_buttons" />
 		<hook hook="integrate_topic_query" file="SOURCEDIR/Bookmarks.integration.php" function="bmks_integrate_topic_query" />
 		<hook hook="integrate_display_topic" file="SOURCEDIR/Bookmarks.integration.php" function="bmks_integrate_display_topic" />
@@ -62,7 +64,8 @@
 		<hook reverse="true" hook="integrate_general_mod_settings" file="SOURCEDIR/Bookmarks.integration.php" function="bmks_integrate_general_mod_settings" />
 		<hook reverse="true" hook="integrate_load_permissions" file="SOURCEDIR/Bookmarks.integration.php" function="bmks_integrate_load_permissions" />
 		<hook reverse="true" hook="integrate_remove_topics" file="SOURCEDIR/Bookmarks.integration.php" function="bmks_integrate_remove_topics" />
-		<hook reverse="true" hook="integrate_display_buttons" file="SOURCEDIR/Bookmarks.integration.php" function="bmks_integrate_display_buttons" />
+		<hook reverse="true" hook="integrate_remove_message" file="SOURCEDIR/Bookmarks.integration.php" function="bmks_integrate_remove_message" />
+        <hook reverse="true" hook="integrate_display_buttons" file="SOURCEDIR/Bookmarks.integration.php" function="bmks_integrate_display_buttons" />
 		<hook reverse="true" hook="integrate_menu_buttons" file="SOURCEDIR/Bookmarks.integration.php" function="bmks_integrate_menu_buttons" />
 		<hook reverse="true" hook="integrate_topic_query" file="SOURCEDIR/Bookmarks.integration.php" function="bmks_integrate_topic_query" />
 		<hook reverse="true" hook="integrate_display_topic" file="SOURCEDIR/Bookmarks.integration.php" function="bmks_integrate_display_topic" />
