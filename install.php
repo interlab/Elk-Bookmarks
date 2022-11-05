@@ -5,7 +5,7 @@
  * @author    Aaron
  * @license   BSD http://opensource.org/licenses/BSD-3-Clause
  *
- * @version 1.0
+ * @version 3.0.0
  *
  */
 
@@ -27,19 +27,19 @@ $dbtbl->db_create_table($db_prefix . 'bookmarks',
 			'name' => 'id_member',
 			'type' => 'mediumint',
 			'size' => 8,
-            'unsigned' => true,
+			'unsigned' => true,
 		),
 		array(
 			'name' => 'id_topic',
 			'type' => 'mediumint',
 			'size' => 8,
-            'unsigned' => true,
+			'unsigned' => true,
 		),
 		array(
 			'name' => 'id_msg',
 			'type' => 'mediumint',
 			'size' => 8,
-            'unsigned' => true,
+			'unsigned' => true,
 		),
 		array(
 			'name' => 'added_time',
@@ -71,13 +71,13 @@ $dbtbl->db_create_table($db_prefix . 'bookmarks_members',
 			'name' => 'id_owner',
 			'type' => 'mediumint',
 			'size' => 8,
-            'unsigned' => true,
+			'unsigned' => true,
 		),
 		array(
 			'name' => 'id_member',
 			'type' => 'mediumint',
 			'size' => 8,
-            'unsigned' => true,
+			'unsigned' => true,
 		),
 		array(
 			'name' => 'added_time',
