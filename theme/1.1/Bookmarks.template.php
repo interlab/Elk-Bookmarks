@@ -12,115 +12,57 @@ function template_main()
 			</div>';
 	}
 
-	// We know how to sprite these
-	$message_icon_sprite = [
-		'clip' => '', 'lamp' => '', 'poll' => '', 'question' => '', 'xx' => '',
-		'moved' => '', 'exclamation' => '', 'thumbup' => '', 'thumbdown' => ''
-	];
-
 	$not_empty = !empty($context['bookmarks']);
 
 	if ($not_empty) {
 		template_pagesection('normal_buttons', 'right');
 	}
 
-	// Let's get the show moving.
-	echo '
-			<h3 class="category_header">', $txt['bookmark_list'], '</h3>';
-
 	// Show the bookmarks, if any.
 	if ($not_empty)
 	{
 		echo '
-			<form class="generic_list_wrapper" action="', $scripturl, '?action=bookmarks;sa=delete" method="post">
-				<table class="table_grid">
-					<thead>
-						<tr class="table_head">
-							<th style="width:50px;"></th>
-							<th class="grid33">', $txt['subject'], '</th>
-							<th class="grid20">', $txt['author'], '</th>
-							<th class="centertext">', $txt['replies'], '</th>
-							<th class="centertext">', $txt['views'], '</th>
-							<th class="grid20">', $txt['latest_post'], '</th>
-							<th class="grid20">', $txt['bmk_added'], '</th>
-							<th class="centertext">
-								<input type="checkbox" class="input_check" onclick="invertAll(this, this.form);" />
-							</th>
-						</tr>
-					</thead>
-					<tbody>';
+			<main id="bookmarks">
+				<header class="category_header hdicon cat_img_posts">', $txt['bookmark_list'], '</header>';
 
 		foreach ($context['bookmarks'] as $msg)
 		{
 			// Show the topic's subject
 			echo '
-						<tr>
-							<td>
-								<p class="topic_icons', isset($message_icon_sprite[$msg['icon']]) ? ' topicicon i-' . $msg['icon'] : '', '">';
+					<article class="content forumposts">
+				<header class="topic_details">
+					<h5>
+						<p class="topic_icons', !empty($msg['icon']) ? ' topicicon i-' . $msg['icon'] : '', '">
+							', $msg['post']['link'],
+							' <i>', $txt['in'], ' ', $msg['board']['link'], '</i>
+						</p>
+						<br class="clear">
+						<p class="smalltext">'
+							, $txt['by'], ' <strong>', $msg['last_post']['member']['link'], '</strong> - ', $msg['post']['time'], '
+						</p>
+					</h5>
+				</header>
+				<section class="inner">
+					', $msg['body'], '
+				</section>';
 
-			if (!isset($message_icon_sprite[$msg['icon']]))
-				echo '
-									<img src="', $msg['icon_url'], '" alt="" />';
+			if (!empty($msg['buttons']))
+				template_quickbutton_strip($msg['buttons'], !empty($msg['tests']) ? $msg['tests'] : []);
 
 			echo '
-								</p>
-							</td>
-							<td>';
-
-			// Any new replies?
-			if ($msg['new'])
-				echo '
-								<a class="new_posts" href="', $msg['new_href'], '" id="newicon' . $msg['id'] . '">' . $txt['new'] . '</a>';
-
-			// Show the board the topic was posted in, as well as a link to the profile of the topic starter
-			echo
-								$msg['post']['link'],
-								'<br />
-								<span class="smalltext"><i>', $txt['in'], ' ', $msg['board']['link'], '</i></span>
-							</td>
-							<td>
-								<span class="smalltext">
-									', $msg['post']['time'], '<br />
-									', $txt['by'], ' ', $msg['post']['member']['link'], '
-								</span>
-							</td>
-							<td class="centertext">', $msg['replies'], '</td>
-							<td class="centertext">', $msg['views'], '</td>
-							<td>
-								<span class="smalltext">
-									', $msg['last_post']['time'], '<br />
-									', $txt['by'], ' ', $msg['last_post']['member']['link'], '
-								</span>
-								<a class="topicicon i-last_post" href="', $msg['last_post']['href'], '" title="', $txt['last_post'], '"></a>
-							</td>
-							<td>
-								<span class="smalltext">', $msg['bookmark']['time'], '</span>
-							</td>
-							<td class="centertext">
-								<input type="checkbox" name="remove_bookmarks[]" value="', $msg['post']['id'], '" class="input_check" />
-							</td>
-						</tr>';
+					</article>';
 		}
-
-		echo '
-					</tbody>
-				</table>
-				<div class="submitbutton">
-					<input type="hidden" name="', $context['session_var'], '" value="', $context['session_id'], '" />
-					<input class="button_submit" type="submit" name="send" value="', $txt['bookmark_delete'], '" />
-				</div>
-			</form>';
 	}
 	// Show a message saying there aren't any bookmarks yet
 	else
 	{
-        if ($context['bmk_is_members']) {
-            echo '
+		if ($context['bmk_is_members']) {
+			echo '
 			<div class="infobox">', $txt['bookmark_members_empty'], '</div>';
-        } else { 
-            echo '
+		} else { 
+			echo '
 			<div class="infobox">', $txt['bookmark_messages_empty'], '</div>';
-        }
+		}
 	}
 
 	if ($not_empty)
@@ -153,7 +95,7 @@ function template_members()
 
 	// Let's get the show moving.
 	echo '
-			<h3 class="category_header">', $txt['bookmark_list'], '</h3>';
+			<h3 class="category_header hdicon cat_img_profile">', $txt['bookmark_list'], '</h3>';
 
 	// Show the bookmarks, if any.
 	if ($not_empty)

@@ -171,21 +171,21 @@ function getBookmarksMembers($id_owner, $offset, $limit)
 		]
 	);
 	$members = [];
-    $bookmarks = [];
+	$bookmarks = [];
 	while ($row = $db->fetch_assoc($request)) {
-        $bookmarks[] = $row;
+		$bookmarks[] = $row;
 		$members[] = $row['id_member'];
 	}
 	$db->free_result($request);
-    $ids = [];
+	$ids = [];
 	if (!empty($members)) {
 		$ids = loadMemberData($members);
 	}
-    if (!empty($ids)) {
-        $bookmarks = array_filter($bookmarks, function($it) use ($ids) {
-            return in_array($it['id_member'], $ids); });
-    }
-    $context['can_send_pm'] = allowedTo('pm_send');
+	if (!empty($ids)) {
+		$bookmarks = array_filter($bookmarks, function($it) use ($ids) {
+			return in_array($it['id_member'], $ids); });
+	}
+	// $context['can_send_pm'] = allowedTo('pm_send');
 
 	return [$ids, $bookmarks];
 }
@@ -229,14 +229,15 @@ function getBookmarksMessages($id_member, $offset, $limit)
 	global $settings, $scripturl, $modSettings, $user_info, $txt, $context;
 
 	$db = database();
-
+	$bbc_parser = \BBC\ParserWrapper::instance();
 	$request = $db->query('', '
 		SELECT
 			t.id_topic, t.num_replies, t.locked, t.num_views, t.id_board, t.id_last_msg, t.id_first_msg,
 			t.id_last_msg, m.id_msg,
 			b.name AS board_name,
 			IFNULL(lt.id_msg, IFNULL(lmr.id_msg, -1)) + 1 AS new_from,
-			m.poster_time AS msg_poster_time, m.id_msg_modified, m.subject AS msg_subject,
+			m.poster_time AS msg_poster_time, m.body AS msg_body, m.id_msg_modified,
+			m.subject AS msg_subject, m.smileys_enabled,
 			m.icon AS msg_icon, m.poster_name AS msg_member_name, m.id_member AS msg_id_member,
 			IFNULL(mem.real_name, m.poster_name) AS msg_display_name,
 			ml.poster_time AS last_poster_time, ml.id_msg_modified, ml.subject AS last_subject,
@@ -247,7 +248,7 @@ function getBookmarksMessages($id_member, $offset, $limit)
 			INNER JOIN {db_prefix}messages AS m ON (m.id_msg = bm.id_msg)
 			INNER JOIN {db_prefix}topics AS t ON (m.id_topic = t.id_topic)
 			INNER JOIN {db_prefix}boards AS b ON (t.id_board = b.id_board)
-            INNER JOIN {db_prefix}messages AS ml ON (ml.id_msg = t.id_last_msg)
+			INNER JOIN {db_prefix}messages AS ml ON (ml.id_msg = t.id_last_msg)
 			LEFT JOIN {db_prefix}members AS meml ON (meml.id_member = ml.id_member)
 			LEFT JOIN {db_prefix}members AS mem ON (mem.id_member = m.id_member)
 			LEFT JOIN {db_prefix}log_topics AS lt ON (lt.id_topic = t.id_topic
@@ -270,7 +271,7 @@ function getBookmarksMessages($id_member, $offset, $limit)
 	$bookmarks = [];
 	while ($row = $db->fetch_assoc($request))
 	{
-		censorText($row['subject']);
+		$row['has_bookmark'] = !empty($row['bm_added_time']);
 
 		$bookmarks[$row['id_msg']] = [
 			'topic' => [
@@ -324,7 +325,10 @@ function getBookmarksMessages($id_member, $offset, $limit)
 			],
 			'icon' => $row['msg_icon'],
 			'icon_url' => $settings['theme_url'] . '/post/' . $row['msg_icon'] . '.png',
-			'subject' => $row['msg_subject'],
+
+			'body' => $bbc_parser->parseMessage(censor($row['msg_body']), $row['smileys_enabled']),
+			'subject' => censor($row['msg_subject']),
+
 			'new' => $row['new_from'] <= $row['id_msg_modified'],
 			'new_from' => $row['new_from'],
 			'newtime' => $row['new_from'],
@@ -332,6 +336,15 @@ function getBookmarksMessages($id_member, $offset, $limit)
 			'replies' => $row['num_replies'],
 			'views' => $row['num_views'],
 			'bookmark' => ['time' => standardTime($row['bm_added_time'])],
+			'buttons' => [
+				'star' => [
+					'href' => $scripturl . '?action=bookmarks;sa='.
+						($row['has_bookmark'] ? 'delete' : 'add') . ';msg=' . $row['id_msg'] .
+						';' . $context['session_var'] . '=' . $context['session_id'],
+					// 'custom' => 'star',
+					'text' => $row['has_bookmark'] ? $txt['bmk_remove'] : $txt['bmk_add'],
+				],
+			],
 		];
 	}
 	$db->free_result($request);
