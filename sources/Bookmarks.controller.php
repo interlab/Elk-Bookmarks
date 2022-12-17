@@ -18,7 +18,9 @@ class Bookmarks_Controller extends Action_Controller
 	 */
 	protected $_result;
 
-	protected string $bmk_type = 'messages';
+	protected string $bmk_type = '';
+	protected bool $is_topics = false;
+	protected bool $is_messages = false;
 	protected bool $is_members = false;
 
 	/**
@@ -40,11 +42,26 @@ class Bookmarks_Controller extends Action_Controller
 		// Actions here
 		require_once(SUBSDIR . '/Action.class.php');
 
-		if (isset($_GET['type']) && $_GET['type'] === 'members') {
+		$type = isset($_GET['type']) ? $_GET['type'] : '';
+
+		if (empty($type) || !in_array($type, ['topics', 'messages', 'members'])) {
+			$this->bmk_type = 'topics';
+			$this->is_topics = true;
+		} elseif ($type === 'topics') {
+			$this->bmk_type = 'topics';
+			$this->is_topics = true;
+		} elseif ($type === 'messages') {
+			$this->bmk_type = 'messages';
+			$this->is_messages = true;
+		} elseif ($type === 'members') {
 			$this->bmk_type = 'members';
 			$this->is_members = true;
+		} else {
+			throw new \Exception('Unknown type!');
 		}
 		$context['bmk_is_members'] = $this->is_members;
+		$context['bmk_is_topics'] = $this->is_topics;
+		$context['bmk_is_messages'] = $this->is_messages;
 
 		// All we know
 		$subActions = [
@@ -83,7 +100,9 @@ class Bookmarks_Controller extends Action_Controller
 		// Set any messages
 		if (!empty($this->_result))
 		{
-			$context['bookmark_result'] = is_array($this->_result) ? sprintf($txt[$this->_result[0]], $this->_result[1]) : $txt[$this->_result];
+			$context['bookmark_result'] = is_array($this->_result)
+				? sprintf($txt[$this->_result[0]], $this->_result[1])
+				: $txt[$this->_result];
 		}
 	}
 
@@ -96,6 +115,8 @@ class Bookmarks_Controller extends Action_Controller
 
 		if ($this->is_members) {
 			$total = getCountBookmarksMembers($user_info['id']);
+		} elseif ($this->is_topics) {
+			$total = getCountBookmarksTopics($user_info['id']);
 		} else {
 			$total = getCountBookmarksMessages($user_info['id']);
 		}
@@ -108,11 +129,9 @@ class Bookmarks_Controller extends Action_Controller
 		$offset = empty($_GET['start']) ? 0 : (int) $_GET['start'];
 		$limit = 25;
 
-		if ($this->is_members) {
-			$context['sub_template'] = 'members';
-		}
-		$bmk_url = $scripturl . '?action=bookmarks' .
-			($this->is_members ? ';type=members' : '');
+		$context['sub_template'] = $this->bmk_type;
+
+		$bmk_url = $scripturl . '?action=bookmarks;type=' . $this->bmk_type;
 
 		$context['page_index'] = constructPageIndex($bmk_url, $offset, $total, $limit);
 		$context['page_info'] = [
@@ -123,6 +142,8 @@ class Bookmarks_Controller extends Action_Controller
 		// Load this user's bookmarks
 		if ($this->is_members) {
 			$context['bookmarks'] = getBookmarksMembers($user_info['id'], $offset, $limit);
+		} elseif ($this->is_topics) {
+			$context['bookmarks'] = getBookmarksTopics($user_info['id'], $offset, $limit);
 		} else {
 			$context['bookmarks'] = getBookmarksMessages($user_info['id'], $offset, $limit);
 		}
@@ -133,13 +154,21 @@ class Bookmarks_Controller extends Action_Controller
 
 			// Build the normal button array.
 			$context['normal_buttons'] = [
+				'topics' => [
+					'test' => 'can_reply',
+					'text' => 'bmk_topics',
+					//'image' => 'reply.png',
+					'lang' => true,
+					'url' => $scripturl . '?action=bookmarks;type=topics',
+					'active' => $this->is_topics,
+				],
 				'messages' => [
 					'test' => 'can_reply',
 					'text' => 'bmk_messages',
 					//'image' => 'reply.png',
 					'lang' => true,
-					'url' => $scripturl . '?action=bookmarks',
-					'active' => !$this->is_members,
+					'url' => $scripturl . '?action=bookmarks;type=messages',
+					'active' => $this->is_messages,
 				],
 				'members' => [
 					'test' => 'can_print',
