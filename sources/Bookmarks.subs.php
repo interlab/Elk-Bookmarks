@@ -427,7 +427,10 @@ function getBookmarksMessages($id_member, $offset, $limit)
 			'new_href' => $scripturl . '?topic=' . $row['id_topic'] . '.msg' . $row['new_from'] . '#new',
 			'replies' => $row['num_replies'],
 			'views' => $row['num_views'],
-			'bookmark' => ['time' => standardTime($row['bm_added_time'])],
+			'bookmark' => [
+				'time' => standardTime($row['bm_added_time']),
+				'short_time' => strftime('%Y-%m-%d', forum_time(true, $row['bm_added_time'])),
+			],
 			'buttons' => [
 				'star' => [
 					'href' => $scripturl . '?action=bookmarks;sa='.
