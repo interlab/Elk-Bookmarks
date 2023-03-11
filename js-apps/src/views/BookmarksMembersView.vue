@@ -4,7 +4,8 @@
 
     <BookmarksComponent :msg="msg"
                         :items="items"
-                        @loadDescr="loadDescr"
+                        :error_msg="error_msg"
+                        :error="error"
     />
   </div>
 </template>
@@ -24,7 +25,9 @@ export default {
   },
   props: {
     msg: String,
-    items: Array[Object]
+    items: Array[Object],
+    error: Boolean,
+    error_msg: String
   },
   mounted: function () {
     // this.$router.push('/inbox');

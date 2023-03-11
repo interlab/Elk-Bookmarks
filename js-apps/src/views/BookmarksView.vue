@@ -8,6 +8,8 @@
 
     <router-view :msg="msg"
                  :items="items"
+                 :error_msg="error_msg"
+                 :error="error"
                  @loadDescr="loadDescr"
                  @fetchData="fetchData"
     />
@@ -30,6 +32,7 @@ export default {
     return {
       msg: "Welcome to Bookmarks Vue.js App!",
       error_msg: "",
+      error: false,
       items: null
     }
   },
@@ -49,6 +52,8 @@ export default {
       },
       fetchData(url) {
         this.loadItems(url);
+        this.error = false;
+        this.error_msg = '';
       },
       // loadItems(ev, k, skip_pages=false) {
       loadItems(url) {
@@ -87,7 +92,8 @@ export default {
               //}
             //}
             // console.log(this.items);
-            this.items = response.data.rows;
+            // this.items = response.data.rows;
+            this.items = response.data;
             console.log(this.items);
             //this.response = response.data;
 
@@ -95,6 +101,15 @@ export default {
              this.error_msg = response.data.err;
             if (response.data.problem)
               this.error_msg = response.data.problem;
+          }).catch((error) => {
+            // handle error
+            // console.log('error: ', error.message);
+            this.error_msg = error.message;
+            //this.error_msg = "lol";
+            this.error = true;
+          })
+          .finally(function () {
+            // always executed
           });
       },
       loadDescr(ev) {

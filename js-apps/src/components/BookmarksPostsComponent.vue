@@ -6,7 +6,9 @@
         </div>
         <div v-show="items" class="result-list" v-else>
           <p v-for="it in items" :key="it.url">
-            <span v-html="it.text"></span> <a :href="it.localurl" @click.prevent="$emit('loadDescr', $event)">[LOAD]</a> <a :href="it.origurl">[ORIG]</a> 
+          Board: {{ it.board.name }} > 
+            <span v-html="it.subject"></span> > {{ it.bookmark.time }}
+            <span v-html="it.last_post.link"></span>
           </p>
         </div>
   </div>

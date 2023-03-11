@@ -2,21 +2,22 @@
   <div class="bookmarks">
     <h1>This is an bookmarks POSTS page</h1>
 
-    <BookmarksComponent :msg="msg"
-                        :items="items"
-                        @loadDescr="loadDescr"
+    <BookmarksPostsComponent :msg="msg"
+                             :items="items"
+                             :error_msg="error_msg"
+                             :error="error"
     />
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import BookmarksComponent from '@/components/BookmarksComponent.vue'
+import BookmarksPostsComponent from '@/components/BookmarksPostsComponent.vue'
 
 export default {
   name: 'BookmarksPostsView',
   components: {
-    BookmarksComponent
+    BookmarksPostsComponent
   },
   data () {
     return {
@@ -25,7 +26,9 @@ export default {
   },
   props: {
     msg: String,
-    items: Array[Object]
+    items: Array[Object],
+    error: Boolean,
+    error_msg: String
   },
   mounted: function () {
     // this.$router.push('/inbox');
