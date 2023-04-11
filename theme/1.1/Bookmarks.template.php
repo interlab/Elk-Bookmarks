@@ -154,6 +154,7 @@ function template_messages()
 			// Show the topic's subject
 			echo '
 					<article class="content forumposts">
+                <div class="floatright smalltext" style="padding: 6px 0 0 0;">', $txt['bmk_added_2'], ' ', $msg['bookmark']['short_time'], '</div>
 				<header class="topic_details">
 					<h5>
 						<p class="topic_icons', !empty($msg['icon']) ? ' topicicon i-' . $msg['icon'] : '', '">
@@ -220,41 +221,33 @@ function template_members()
 					</thead>
 					<tbody>';
 
-		foreach ($context['bookmarks'][1] as $row)
-		{
-			if (!loadMemberContext($row['id_member'])) {
-				continue;
-			}
-
-			$time = standardTime($row['added_time']);
-			$user = $memberContext[$row['id_member']];
-
+		foreach ($context['bookmarks'] as $row) {
 			// Show the topic's subject
 			echo '
-						<tr>
-							<td>', $user['avatar']['image'], '</td>
-							<td>
-								', $user['link'], '
-							</td>
-							<td>
-								', template_member_online($user), '
-							</td>
-							<td>
-								', $user['group'], '
-							</td>
-							<td>
-								<span class="smalltext">', $user['registered'], '</span>
-							</td>
-							<td>
-								<span class="smalltext">', $user['posts'], '</span>
-							</td>
-							<td>
-								<span class="smalltext">', $time, '</span>
-							</td>
-							<td class="centertext">
-								<input type="checkbox" name="remove_bookmarks[]" value="', $row['id_member'], '" class="input_check" />
-							</td>
-						</tr>';
+                <tr>
+                    <td>', $row['user']['avatar']['image'], '</td>
+                    <td>
+                        ', $row['user']['link'], '
+                    </td>
+                    <td>
+                        ', $row['online'], '
+                    </td>
+                    <td>
+                        ', $row['user']['group'], '
+                    </td>
+                    <td>
+                        <span class="smalltext">', $row['user']['registered'], '</span>
+                    </td>
+                    <td>
+                        <span class="smalltext">', $row['user']['posts'], '</span>
+                    </td>
+                    <td>
+                        <span class="smalltext">', $row['time'], '</span>
+                    </td>
+                    <td class="centertext">
+                        <input type="checkbox" name="remove_bookmarks[]" value="', $row['user']['id'], '" class="input_check" />
+                    </td>
+                </tr>';
 		}
 
 		echo '

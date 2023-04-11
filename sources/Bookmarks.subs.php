@@ -226,15 +226,13 @@ function getBookmarksTopics($id_member, $offset, $limit)
 				'timestamp' => forum_time(true, $row['msg_poster_time']),
 				//'icon' => $row['last_icon'],
 				//'icon_url' => $settings['images_url'] . '/post/' . $row['last_icon'] . '.gif',
-				'href' => $scripturl . '?topic=' . $row['id_topic']
-	. ($user_info['is_guest'] ? ('.' . (!empty($options['view_newest_first']) 
-	? 0 : ((int) (($row['num_replies']) / $context['pageindex_multiplier'])) * $context['pageindex_multiplier']) 
-					. '#msg' . $row['id_msg']) : (($row['num_replies'] == 0 ? '.0' : '.msg' . $row['id_msg']) . '#new')),
-				'link' => '<a href="' . $scripturl . '?topic=' . $row['id_topic'] 
-	. ($user_info['is_guest'] ? ('.' . (!empty($options['view_newest_first']) 
-	? 0 : ((int) (($row['num_replies']) / $context['pageindex_multiplier'])) * $context['pageindex_multiplier']) 
-	. '#msg' . $row['id_msg']) : (($row['num_replies'] == 0 ? '.0' : '.msg' . $row['id_msg']) . '#new')) 
-	. '" ' . ($row['num_replies'] == 0 ? '' : 'rel="nofollow"') . '>' . $row['msg_subject'] . '</a>'
+			    'href' => $scripturl . '?topic=' . $row['id_topic'] . 
+                    ($row['num_replies'] == 0 ? '.0' : '.msg' . $row['id_last_msg']) . '#new',
+				'link' => '<a href="' . $scripturl . '?topic=' . $row['id_topic'] .
+                    ($row['num_replies'] == 0 ? '.0' : '.msg' . $row['id_last_msg'])
+                    . '#new' . '" ' . 
+                    ($row['num_replies'] == 0 ? '' : 'rel="nofollow"') 
+                    . '>' . $row['last_subject'] . '</a>'
 			],
 			'last_post' => [
 				'id' => $row['id_last_msg'],
@@ -250,8 +248,13 @@ function getBookmarksTopics($id_member, $offset, $limit)
 				'subject' => $row['last_subject'],
 				'icon' => $row['last_icon'],
 				'icon_url' => $settings['images_url'] . '/post/' . $row['last_icon'] . '.gif',
-				'href' => $scripturl . '?topic=' . $row['id_topic'] . ($user_info['is_guest'] ? ('.' . (!empty($options['view_newest_first']) ? 0 : ((int) (($row['num_replies']) / $context['pageindex_multiplier'])) * $context['pageindex_multiplier']) . '#msg' . $row['id_last_msg']) : (($row['num_replies'] == 0 ? '.0' : '.msg' . $row['id_last_msg']) . '#new')),
-				'link' => '<a href="' . $scripturl . '?topic=' . $row['id_topic'] . ($user_info['is_guest'] ? ('.' . (!empty($options['view_newest_first']) ? 0 : ((int) (($row['num_replies']) / $context['pageindex_multiplier'])) * $context['pageindex_multiplier']) . '#msg' . $row['id_last_msg']) : (($row['num_replies'] == 0 ? '.0' : '.msg' . $row['id_last_msg']) . '#new')) . '" ' . ($row['num_replies'] == 0 ? '' : 'rel="nofollow"') . '>' . $row['last_subject'] . '</a>'
+		        'href' => $scripturl . '?topic=' . $row['id_topic'] . 
+                    ($row['num_replies'] == 0 ? '.0' : '.msg' . $row['id_last_msg']) . '#new',
+				'link' => '<a href="' . $scripturl . '?topic=' . $row['id_topic'] .
+                    ($row['num_replies'] == 0 ? '.0' : '.msg' . $row['id_last_msg'])
+                    . '#new' . '" ' . 
+                    ($row['num_replies'] == 0 ? '' : 'rel="nofollow"') 
+                    . '>' . $row['last_subject'] . '</a>'
 			],
 			'icon' => $row['msg_icon'],
 			'icon_url' => $settings['theme_url'] . '/post/' . $row['msg_icon'] . '.png',
@@ -388,15 +391,13 @@ function getBookmarksMessages($id_member, $offset, $limit)
 				'timestamp' => forum_time(true, $row['msg_poster_time']),
 				//'icon' => $row['last_icon'],
 				//'icon_url' => $settings['images_url'] . '/post/' . $row['last_icon'] . '.gif',
-				'href' => $scripturl . '?topic=' . $row['id_topic']
-	. ($user_info['is_guest'] ? ('.' . (!empty($options['view_newest_first']) 
-	? 0 : ((int) (($row['num_replies']) / $context['pageindex_multiplier'])) * $context['pageindex_multiplier']) 
-					. '#msg' . $row['id_msg']) : (($row['num_replies'] == 0 ? '.0' : '.msg' . $row['id_msg']) . '#new')),
-				'link' => '<a href="' . $scripturl . '?topic=' . $row['id_topic'] 
-	. ($user_info['is_guest'] ? ('.' . (!empty($options['view_newest_first']) 
-	? 0 : ((int) (($row['num_replies']) / $context['pageindex_multiplier'])) * $context['pageindex_multiplier']) 
-	. '#msg' . $row['id_msg']) : (($row['num_replies'] == 0 ? '.0' : '.msg' . $row['id_msg']) . '#new')) 
-	. '" ' . ($row['num_replies'] == 0 ? '' : 'rel="nofollow"') . '>' . $row['msg_subject'] . '</a>'
+				'href' => $scripturl . '?topic=' . $row['id_topic'] . 
+                    ($row['num_replies'] == 0 ? '.0' : '.msg' . $row['id_last_msg']) . '#new',
+				'link' => '<a href="' . $scripturl . '?topic=' . $row['id_topic'] .
+                    ($row['num_replies'] == 0 ? '.0' : '.msg' . $row['id_last_msg'])
+                    . '#new' . '" ' . 
+                    ($row['num_replies'] == 0 ? '' : 'rel="nofollow"') 
+                    . '>' . $row['last_subject'] . '</a>'
 			],
 			'last_post' => [
 				'id' => $row['id_last_msg'],
@@ -412,8 +413,13 @@ function getBookmarksMessages($id_member, $offset, $limit)
 				'subject' => $row['last_subject'],
 				'icon' => $row['last_icon'],
 				'icon_url' => $settings['images_url'] . '/post/' . $row['last_icon'] . '.gif',
-				'href' => $scripturl . '?topic=' . $row['id_topic'] . ($user_info['is_guest'] ? ('.' . (!empty($options['view_newest_first']) ? 0 : ((int) (($row['num_replies']) / $context['pageindex_multiplier'])) * $context['pageindex_multiplier']) . '#msg' . $row['id_last_msg']) : (($row['num_replies'] == 0 ? '.0' : '.msg' . $row['id_last_msg']) . '#new')),
-				'link' => '<a href="' . $scripturl . '?topic=' . $row['id_topic'] . ($user_info['is_guest'] ? ('.' . (!empty($options['view_newest_first']) ? 0 : ((int) (($row['num_replies']) / $context['pageindex_multiplier'])) * $context['pageindex_multiplier']) . '#msg' . $row['id_last_msg']) : (($row['num_replies'] == 0 ? '.0' : '.msg' . $row['id_last_msg']) . '#new')) . '" ' . ($row['num_replies'] == 0 ? '' : 'rel="nofollow"') . '>' . $row['last_subject'] . '</a>'
+				'href' => $scripturl . '?topic=' . $row['id_topic'] . 
+                    ($row['num_replies'] == 0 ? '.0' : '.msg' . $row['id_last_msg']) . '#new',
+				'link' => '<a href="' . $scripturl . '?topic=' . $row['id_topic'] .
+                    ($row['num_replies'] == 0 ? '.0' : '.msg' . $row['id_last_msg'])
+                    . '#new' . '" ' . 
+                    ($row['num_replies'] == 0 ? '' : 'rel="nofollow"') 
+                    . '>' . $row['last_subject'] . '</a>'
 			],
 			'icon' => $row['msg_icon'],
 			'icon_url' => $settings['theme_url'] . '/post/' . $row['msg_icon'] . '.png',
@@ -514,5 +520,37 @@ function getBookmarksMembers($id_owner, $offset, $limit)
 	}
 	// $context['can_send_pm'] = allowedTo('pm_send');
 
-	return [$ids, $bookmarks];
+    // new
+    $users = [];
+    foreach ($bookmarks as $row) {
+        $mem = getMemberDetails($row);
+        if (!$mem) {
+            continue;
+        }
+
+        $users[] = [
+            'time' => $mem['time'],
+            'user' => $mem['user'],
+            'online' => $mem['online'],
+        ];
+    }
+
+	// return [$ids, $bookmarks, $users];
+	return $users;
+}
+
+function getMemberDetails($row)
+{
+    global $memberContext;
+
+    if (!loadMemberContext($row['id_member'])) {
+        return null;
+    }
+    $user = $memberContext[$row['id_member']];
+
+    return [
+        'time' => standardTime($row['added_time']),
+        'user' => $user,
+        'online' => template_member_online($user),
+    ];
 }

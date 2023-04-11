@@ -1,13 +1,16 @@
 <?php
 
-/**
- * @package "Bookmarks" Addon for Elkarte
- * @author Aaron
- * @license BSD http://opensource.org/licenses/BSD-3-Clause
- *
- * @version 3.0.0
- *
- */
+function json_response(array $data)
+{
+    /*ob_end_clean();
+      ob_start('ob_gzhandler');*/
+    // header('Content-Type: application/json');
+    header('Access-Control-Allow-Origin: *');
+    if (empty($data)) {
+        log_error('$data is empty!');
+    }
+    die(json_encode($data, JSON_UNESCAPED_UNICODE));
+}
 
 class Bookmarks_Controller extends Action_Controller
 {
@@ -29,6 +32,7 @@ class Bookmarks_Controller extends Action_Controller
 	 */
 	public function action_index()
 	{
+        // is_not_guest();
 		$this->action_bookmarks_main();
 	}
 
@@ -63,9 +67,12 @@ class Bookmarks_Controller extends Action_Controller
 		$context['bmk_is_topics'] = $this->is_topics;
 		$context['bmk_is_messages'] = $this->is_messages;
 
+// $context['can_make_bookmarks'] = true;
+// $context['make_bookmarks'] = true;
+
 		// All we know
 		$subActions = [
-			'main' => [$this, 'action_bookmarks_get', 'permission' => 'make_bookmarks'],
+			'main' => [$this, 'action_bookmarks_get', 'permission' => []],
 			'add' => [$this, 'action_bookmarks_add', 'permission' => 'make_bookmarks'],
 			'delete' => [$this, 'action_bookmarks_delete', 'permission' => 'make_bookmarks'],
 		];
@@ -113,6 +120,9 @@ class Bookmarks_Controller extends Action_Controller
 	{
 		global $user_info, $context, $scripturl;
 
+header('Access-Control-Allow-Origin: *');
+$user_info['id'] = 1;
+
 		if ($this->is_members) {
 			$total = getCountBookmarksMembers($user_info['id']);
 		} elseif ($this->is_topics) {
@@ -125,6 +135,8 @@ class Bookmarks_Controller extends Action_Controller
 
 			return;
 		}
+        
+        // echo $total;
 
 		$offset = empty($_GET['start']) ? 0 : (int) $_GET['start'];
 		$limit = 25;
@@ -182,6 +194,10 @@ class Bookmarks_Controller extends Action_Controller
 				]
 			];
 		// }
+        
+        if (isset($_REQUEST['resp']) && $_REQUEST['resp'] === 'ajax') {
+            json_response($context['bookmarks']);
+        }
 	}
 
 	/**
