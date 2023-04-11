@@ -34,6 +34,11 @@ const routes = [
           name: 'bookmarks-members'
         },
     ]
+  },
+  {
+    path: '/todo',
+    name: 'todo',
+    component: () => import(/* webpackChunkName: "todo" */ '../views/TodoView.vue')
   }
 ]
 
