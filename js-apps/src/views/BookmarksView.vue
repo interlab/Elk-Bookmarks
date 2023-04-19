@@ -12,6 +12,7 @@
                  :error="error"
                  @loadDescr="loadDescr"
                  @fetchData="fetchData"
+                 @cleanItems="cleanItems"
     />
 
 
@@ -43,6 +44,9 @@ export default {
     // this.fetchData();
   },
   methods: {
+      cleanItems() {
+        this.items = null;
+      },
       toggleAjax() {
         // cancel  previous ajax if exists
         if (this.ajaxRequest) {

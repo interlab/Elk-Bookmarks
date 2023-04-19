@@ -30,10 +30,19 @@ export default {
     error: Boolean,
     error_msg: String
   },
-  mounted: function () {
+  watch: {
+    $route() {
+      // react to route changes...
+      // fix for items object
+      this.$emit('cleanItems');
+    }
+  },
+  // mounted: function () {
+  created: function () {
     // this.$router.push('/inbox');
     // console.log(this.$route);
     // this.toggleBox(this.$route.path);
+    // this.$emit('cleanItems'); // not work :p
     this.$emit('fetchData', this.$elk_scripturl_posts);
   },
   methods: {

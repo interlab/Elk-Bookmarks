@@ -2,7 +2,7 @@
   <div class="bookmarks">
     <h1>This is an bookmarks TOPICS page</h1>
 
-    <BookmarksComponent :msg="msg"
+    <BookmarksTopicsComponent :msg="msg"
                         :items="items"
                         :error_msg="error_msg"
                         :error="error"
@@ -12,12 +12,12 @@
 
 <script>
 // @ is an alias to /src
-import BookmarksComponent from '@/components/BookmarksComponent.vue'
+import BookmarksTopicsComponent from '@/components/BookmarksTopicsComponent.vue'
 
 export default {
-  name: 'BookmarksPostsView',
+  name: 'BookmarksTopicsView',
   components: {
-    BookmarksComponent
+    BookmarksTopicsComponent
   },
   data () {
     return {
@@ -29,11 +29,19 @@ export default {
     error: Boolean,
     error_msg: String
   },
-  mounted: function () {
+  watch: {
+    $route() {
+      // react to route changes...
+      // fix for items object
+      this.$emit('cleanItems');
+    }
+  },
+  // mounted: function () {
+  created: function () {
     // this.$router.push('/inbox');
     // console.log(this.$route);
     // this.toggleBox(this.$route.path);
-    console.log('run');
+    // this.$emit('cleanItems'); // not work :p
     this.$emit('fetchData', this.$elk_scripturl_topics);
   },
   methods: {
