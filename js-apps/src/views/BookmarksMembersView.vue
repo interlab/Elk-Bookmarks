@@ -29,21 +29,16 @@ export default {
     error: Boolean,
     error_msg: String
   },
+  /*
   computed: {
     members: function() { return []; },
   },
-  watch: {
-    $route() {
-      // react to route changes...
-      // fix for items object
-      this.$emit('cleanItems');
-    }
-  },
+  */
   // mounted: function () {
   created: function () {
     // this.$emit('cleanItems'); // not work :p
     this.$emit('fetchData', this.$elk_scripturl_members);
-    console.log(this.items);
+    //console.log(this.items);
   },
   methods: {
   }

@@ -1,6 +1,6 @@
 <template>
   <div class="bookmarks">
-    <h1>This is an bookmarks POSTS page</h1>
+    <h1>This is an bookmarks POSTS VIEW page</h1>
 
     <BookmarksPostsComponent :msg="msg"
                              :items="items"
@@ -29,13 +29,6 @@ export default {
     items: Array[Object],
     error: Boolean,
     error_msg: String
-  },
-  watch: {
-    $route() {
-      // react to route changes...
-      // fix for items object
-      this.$emit('cleanItems');
-    }
   },
   // mounted: function () {
   created: function () {

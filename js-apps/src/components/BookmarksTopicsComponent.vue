@@ -1,16 +1,15 @@
 <template>
-  <div class="hello">
+  <div class="bookmarks">
     <h1>{{ msg }}</h1>
-        <div class="error" v-if="error">
-        Ошибка: {{ error_msg }}
-        </div>
-        <div v-show="items" class="result-list" v-else>
-          <p v-for="it in items" :key="it.url">
-          Board: {{ it.board.name }} > 
-            <span v-html="it.subject"></span> > {{ it.bookmark.time }}
-            <span v-html="it.last_post.link"></span>
-          </p>
-        </div>
+    <div class="infobox" v-if="error">Ошибка: {{ error_msg }}</div>
+    <div class="infobox" v-if="!items">LOADING ...</div>
+    <div class="result-list" v-else>
+        <p v-for="it in items" :key="it.url">
+        Board: {{ it.board.name }} > 
+        <span v-html="it.subject"></span> > {{ it.bookmark.time }}
+        <span v-html="it.last_post.link"></span>
+        </p>
+    </div>
   </div>
 </template>
 

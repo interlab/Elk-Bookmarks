@@ -3,7 +3,7 @@
     <h1>{{ msg }}</h1>
 
     <div class="infobox" v-if="error">Ошибка: {{ error_msg }}</div>
-    <div class="infobox" v-if="!items">Ошибка: items empty</div>
+    <div class="infobox" v-if="!items">LOADING ...</div>
     <div class="result-list" v-else>
         <header class="category_header hdicon cat_img_posts">bookmark list</header>
         <!--

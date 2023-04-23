@@ -1,9 +1,9 @@
 <template>
   <div class="bookmarks">
-    <h1>This is an bookmarks MEMBERS COMPONENT page</h1>
+    <h1>{{ msg }}</h1>
 
     <div class="infobox" v-if="error">Ошибка: {{ error_msg }}</div>
-    <div class="infobox" v-else-if="!items">Ошибка: items empty</div>
+    <div class="infobox" v-else-if="!items">LOADING ...</div>
     <div class="result-list" v-else>
         <form class="generic_list_wrapper" action="?action=bookmarks;sa=delete;type=members" method="post">
             <table class="table_grid">
@@ -17,7 +17,7 @@
                         <th class="grid8">Posts</th>
                         <th class="grid17">Added</th>
                         <th class="centertext">
-                            <input type="checkbox" class="input_check" onclick="" />
+                            <input type="checkbox" class="input_check" @click="invertAll" />
                         </th>
                     </tr>
                 </thead>
@@ -38,7 +38,7 @@
                     <span class="smalltext" v-text="it.time"></span>
                 </td>
                 <td class="centertext">
-                    <input type="checkbox" name="remove_bookmarks[]" value="{{it.user.id}}" class="input_check">
+                    <input type="checkbox" :value="it.user.id" v-model="checkedMembers" class="input_check">
                 </td>
             </tr>
 
@@ -61,12 +61,34 @@ export default {
     items: Array[Object],
     error: Boolean,
     error_msg: String
+  },
+  data () {
+    return {
+        checkedMembers: new Set()
+    }
+  },
+  methods: {
+    invertAll(event) {
+        const isChecked = event.target.checked;
+        this.items.forEach((val)=>{
+            const value = String(val.user.id);
+            if (isChecked) {
+                this.checkedMembers.add(value);
+            } else {
+                this.checkedMembers = new Set();
+            }
+        });
+    }
   }
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.submitbutton {
+    text-align: right;
+}
+/*
 h3 {
   margin: 40px 0 0;
 }
@@ -84,4 +106,5 @@ a {
 div.result-list {
   text-align: left;
 }
+*/
 </style>

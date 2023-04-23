@@ -37,6 +37,13 @@ export default {
       items: null
     }
   },
+  watch: {
+    $route() {
+      // react to route changes...
+      // fix for items object
+      this.cleanItems();
+    }
+  },
   mounted: function () {
     // this.$router.push('/inbox');
     // console.log(this.$route);
@@ -98,7 +105,7 @@ export default {
             // console.log(this.items);
             // this.items = response.data.rows;
             this.items = response.data;
-            console.log(this.items);
+            // console.log(this.items);
             //this.response = response.data;
 
             if (response.data.err)
