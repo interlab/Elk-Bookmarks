@@ -1,6 +1,7 @@
 <template>
   <div class="bookmarks">
     <h1>{{ msg }}</h1>
+    <h3 class="category_header hdicon cat_img_profile">$txt.bookmark_list </h3>
 
     <div class="infobox" v-if="error">Ошибка: {{ error_msg }}</div>
     <div class="infobox" v-else-if="!items">LOADING ...</div>

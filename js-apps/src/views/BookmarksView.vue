@@ -1,10 +1,29 @@
 <template>
   <div class="bookmarks">
+  
+  <!--
+<ul role="menubar" class="buttonlist floatright">
+    <li role="menuitem"><a class="linklevel1 button_strip_topics" href="http://localhost/elki1-1/t2/index.php?action=bookmarks;type=topics">Topics</a></li>
+    <li role="menuitem"><a class="linklevel1 button_strip_messages" href="http://localhost/elki1-1/t2/index.php?action=bookmarks;type=messages">Messages</a></li>
+    <li role="menuitem"><a class="linklevel1 button_strip_members active" href="http://localhost/elki1-1/t2/index.php?action=bookmarks;type=members">Members</a></li>
+</ul>
+  -->
+  
+<ul role="menubar" class="buttonlist floatright">
     <nav>
-    <router-link to="/bookmarks/topics">Topics</router-link> |
-    <router-link to="/bookmarks/posts">Posts</router-link> |
-    <router-link to="/bookmarks/members">Members</router-link>
+    <li role="menuitem"><router-link :to="{ name: 'bookmarks-topics' }" active-class="active" class="linklevel1">Topics</router-link></li>
+    <li role="menuitem"><router-link :to="{ name: 'bookmarks-posts' }" active-class="active" class="linklevel1">Posts</router-link></li>
+    <li role="menuitem"><router-link :to="{ name: 'bookmarks-members' }" active-class="active" class="linklevel1">Members</router-link></li>
     </nav>
+</ul>
+
+  <!--
+    <nav>
+    <router-link :to="{ name: 'bookmarks-topics' }">Topics</router-link> |
+    <router-link :to="{ name: 'bookmarks-posts' }">Posts</router-link> |
+    <router-link :to="{ name: 'bookmarks-members' }">Members</router-link>
+    </nav>
+  -->
 
     <router-view :msg="msg"
                  :items="items"

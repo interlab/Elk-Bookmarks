@@ -12,12 +12,12 @@
       
         <article class="content forumposts" v-for="msg in items" :key="msg.id">
             <div class="floatright smalltext" style="padding: 6px 0 0 0;">
-                txt_bmk_added_2 {{msg.bookmark.short_time}}
+                txt_bmk_added_2 {{ msg.bookmark.short_time }}
             </div>
             <header class="topic_details">
                 <h5>
-                    <p class="topic_icons{{msg.icon ? ' topicicon i-' + msg.icon : ''}}">
-                        <span v-html="msg.post.link"></span> <i>txt_in </i><i v-html="msg.board.link"></i>
+                    <p :class="['topic_icons', msg.icon ? ' topicicon i-' + msg.icon : '']">
+                    &nbsp;<span v-html="msg.post.link"></span> <i>txt_in </i><i v-html="msg.board.link"></i>
                     </p>
                     <br class="clear">
                     <p class="smalltext">
